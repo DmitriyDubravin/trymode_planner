@@ -1,0 +1,253 @@
+@import "libs/vars";
+@import "libs/mixins";
+
+@import "components/header";
+@import "components/footer";
+@import "../../node_modules/slick-carousel/slick/slick";
+
+@font-face {
+	font-family: 'icomoon';
+	src:  url('../fonts/icomoon.eot?xuce0v');
+	src:  url('../fonts/icomoon.eot?xuce0v#iefix') format('embedded-opentype'),
+	  url('../fonts/icomoon.ttf?xuce0v') format('truetype'),
+	  url('../fonts/icomoon.woff?xuce0v') format('woff'),
+	  url('../fonts/icomoon.svg?xuce0v#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+  
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-pencil:before {
+	content: "\e905";
+  }
+  .icon-calendar:before {
+	content: "\e953";
+  }
+  .icon-cog:before {
+	content: "\e994";
+  }
+  .icon-bin:before {
+	content: "\e9ac";
+  }
+  .icon-target:before {
+	content: "\e9b3";
+  }
+  .icon-checkmark:before {
+	content: "\ea10";
+  }
+  .icon-checkmark2:before {
+	content: "\ea11";
+  }
+  .icon-shuffle:before {
+	content: "\ea30";
+  }
+  .icon-arrow-right2:before {
+	content: "\ea3c";
+  }
+  .icon-arrow-left2:before {
+	content: "\ea40";
+  }
+  
+* {
+	box-sizing: border-box;
+	&:before,
+	&:after {
+		box-sizing: border-box;
+	}
+}
+
+body {
+	margin: 0;
+	padding: 20px;
+	font-family: $main-ff;
+	transition: opacity 0.25s;
+	&.preloader {
+		opacity: 0;
+	}
+}
+
+a {
+	color: $brand-fg;
+	text-decoration: none;
+	&:hover {
+		color: $white;
+	}
+}
+
+.content {
+	padding: 20px;
+}
+
+
+
+.diary {
+	margin: 0 auto 20px;
+	border: 1px solid $brand-bg;
+	border-radius: 4px;
+	overflow: hidden;
+	max-width: 960px;
+	color: $brand-bg;
+	background: $white;
+	.date {
+		border-bottom: 1px solid $brand-bg2;
+		padding: 10px;
+		line-height: 20px;
+		font-size: 16px;
+		font-weight: bold;
+		text-align: center;
+		color: $white;
+		background: $brand-bg;
+	}
+	.btn {
+		margin: 0 10px;
+		border: 0;
+		padding: 0;
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		color: $brand-fg;
+		background: none;
+		cursor: pointer;
+		outline: none;
+		i {
+			display: block;
+			line-height: 20px;
+			font-size: 20px;
+			vertical-align: middle;
+		}
+	}
+	.btn-prev-day,
+	.btn-today {
+		float: left;
+	}
+	.btn-next-day,
+	.btn-calendar {
+		float: right;
+	}
+}
+
+
+.calendar-holder {
+	padding: 20px 0;
+	// max-width: 300px;
+}
+.calendar {
+	display: flex;
+	flex-wrap: wrap;
+	border: 1px solid $black;
+	text-align: center;
+	.cell {
+		position: relative;
+		border: 1px solid $black;
+		width: calc(100% / 7);
+		padding-top: calc(100% / 7);
+		span {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+		button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			border: 0;
+			padding: 0;
+			vertical-align: top;
+			color: $white;
+			background: $brand-bg;
+			cursor: pointer;
+			outline: none;
+			&:hover {
+				color: $brand-bg;
+				background: $brand-fg;
+			}
+		}
+		&.today {
+			button {
+				color: $white;
+				background: $brand-bg2;
+			}
+		}
+		&.selected {
+			button {
+				color: $brand-bg;
+				background: $brand-fg;
+			}
+		}
+	}
+	.switchers {
+		width: 100%;
+		.label {
+			position: relative;
+			margin-left: calc(100% / 7);
+			border: 1px solid $black;
+			padding: 0;
+			width: calc(100% / 7 * 5);
+			padding-top: calc(100% / 7);
+			white-space: nowrap;
+		}
+		span {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+	}
+	.switcher {
+		position: relative;
+		margin: 0;
+		border: 1px solid $black;
+		padding: 0;
+		width: calc(100% / 7);
+		padding-top: calc(100% / 7);
+		text-align: center;
+		&.prev {
+			float: left;
+		}
+		&.next {
+			float: right;
+		}
+	}
+}
+
+
+.days-cells {
+	display: flex;
+	flex-wrap: wrap;
+	border: 1px solid $brand-bg;
+	background: $brand-bg;
+	.cell {
+		border: 1px solid $brand-bg;
+		width: calc(100% / 6);
+		line-height: 24px;
+		font-size: 14px;
+		text-align: center;
+		background: $white;
+	}
+	.event {
+		border: 1px solid $brand-bg;
+		width: 100%;
+		line-height: 24px;
+		font-size: 14px;
+		text-align: center;
+		background: $white;
+	}
+}
