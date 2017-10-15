@@ -88,6 +88,11 @@ a {
 	}
 }
 
+#planner {
+	margin: 0 auto;
+	max-width: 374px;
+}
+
 .content {
 	padding: 20px;
 }
@@ -148,13 +153,15 @@ a {
 .calendar {
 	display: flex;
 	flex-wrap: wrap;
-	border: 1px solid $black;
+	border: 1px solid $brand-bg;
 	text-align: center;
+	background: $brand-bg;
 	.cell {
 		position: relative;
 		border: 1px solid $black;
 		width: calc(100% / 7);
 		padding-top: calc(100% / 7);
+		background: $white;
 		span {
 			position: absolute;
 			top: 50%;
@@ -195,6 +202,7 @@ a {
 	}
 	.switchers {
 		width: 100%;
+		background: $white;
 		.label {
 			position: relative;
 			margin-left: calc(100% / 7);
@@ -237,17 +245,34 @@ a {
 	.cell {
 		border: 1px solid $brand-bg;
 		width: calc(100% / 6);
-		line-height: 24px;
+		line-height: 32px;
 		font-size: 14px;
 		text-align: center;
 		background: $white;
 	}
 	.event {
-		border: 1px solid $brand-bg;
+		border: 1px solid $brand-bg2;
 		width: 100%;
-		line-height: 24px;
+		padding: 0 10px;
+		line-height: 32px;
 		font-size: 14px;
-		text-align: center;
-		background: $white;
+		// text-align: center;
+		color: $white;
+		background: $brand-bg;
+	}
+	.gap1 {
+		margin-left: calc(100% / 6);
+	}
+	.gap2 {
+		margin-left: calc(100% / 6 * 2);
+	}
+	.gap3 {
+		margin-left: calc(100% / 6 * 3);
+	}
+	.gap4 {
+		margin-left: calc(100% / 6 * 4);
+	}
+	.gap5 {
+		margin-left: calc(100% / 6 * 5);
 	}
 }

@@ -7,7 +7,8 @@ export default class Toolbar extends Component {
 		this.props.setCurrentTime(cf.getUTCTimestamp());
 		let date = new Date();
 		this.props.setSelectedTime(cf.getLocalTimestamp(date.getFullYear(), date.getMonth(), date.getDate()));
-		this.props.setShowingTime(cf.getUTCTimestamp());
+		// this.props.setShowingTime(cf.getUTCTimestamp());
+		this.props.setShowingTime(cf.getLocalTimestamp(date.getFullYear(), date.getMonth(), date.getDate()));
 		this.props.calendarOff();
 	}
 	selectPrevDay = () => {
@@ -27,7 +28,10 @@ export default class Toolbar extends Component {
 						<button className="btn btn-prev-day" onClick={() => this.selectPrevDay()}><i className="icon-arrow-left2"></i></button>
 						<button className="btn btn-next-day" onClick={() => this.selectNextDay()}><i className="icon-arrow-right2"></i></button>
 						<button className="btn btn-today" onClick={() => this.selectToday()}><i className="icon-target"></i></button>
-						<button className="btn btn-calendar" onClick={() => this.props.calendarToggle()}><i className="icon-calendar"></i></button>
+						<button className="btn btn-calendar" onClick={() => {
+							this.props.calendarToggle();
+							this.props.dayToggle();
+						}}><i className="icon-calendar"></i></button>
 						{formattedDate}
 					</div>
 				</div>

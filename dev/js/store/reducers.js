@@ -42,6 +42,8 @@ export const layout = (state = initialLayout, action) => {
 			return {...state, toolbar: !state.toolbar};
 		case 'CALENDAR_TOGGLE':
 			return {...state, calendar: !state.calendar};
+		case 'DAY_TOGGLE':
+			return {...state, day: !state.day};
 		case 'CALENDAR_OFF':
 			return {...state, calendar: false};
 		case 'PAGE_MAIN':

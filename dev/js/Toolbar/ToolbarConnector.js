@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		calendarOff() {
 			dispatch(Actions.calendarOffAction())
+		},
+		dayToggle() {
+			dispatch(Actions.dayToggleAction())
 		}
 	}
 }

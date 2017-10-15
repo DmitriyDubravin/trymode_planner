@@ -20,6 +20,12 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		setShowingTime(time) {
 			dispatch(Actions.setShowingTimeAction(time))
+		},
+		calendarOff() {
+			dispatch(Actions.calendarOffAction())
+		},
+		dayToggle() {
+			dispatch(Actions.dayToggleAction())
 		}
 	}
 }

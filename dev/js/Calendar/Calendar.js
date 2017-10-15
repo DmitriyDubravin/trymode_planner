@@ -13,7 +13,8 @@ export default class Calendar extends Component {
 
 	selectDate = (year, month, day) => {
 		console.log(year, month, day);
-		this.props.setSelectedTime(cf.getUTCTime(year, month, day));
+		this.props.setSelectedTime(cf.getLocalTimestamp(year, month, day));
+		this.props.calendarOff();
 	}
 
 	switchMonth = (dir) => {
@@ -54,7 +55,12 @@ export default class Calendar extends Component {
 			let classes = 'cell';
 			if(showingYear === currentYear && showingMonth === currentMonth && dayIndex === currentDay) classes += ' today';
 			if(showingYear === selectedYear && showingMonth === selectedMonth && dayIndex === selectedDay) classes += ' selected';
-			let button = n >= firstDayInMonthIndex && n < daysInMonth + firstDayInMonthIndex ? <button onClick={() => this.selectDate(showingYear, showingMonth, dayIndex)}>{dayIndex}</button> : null;
+			let button = n >= firstDayInMonthIndex && n < daysInMonth + firstDayInMonthIndex ? <button onClick={
+				() => {
+					this.selectDate(showingYear, showingMonth, dayIndex);
+					this.props.dayToggle();
+				}
+			}>{dayIndex}</button> : null;
 			return <div key={n} className={classes}>{button}</div>
 		});
 

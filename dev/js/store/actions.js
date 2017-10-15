@@ -31,6 +31,9 @@ export function calendarOffAction() {
 export function loginToggleAction() {
 	return {type: 'LOGIN_TOGGLE'}
 }
+export function dayToggleAction() {
+	return {type: 'DAY_TOGGLE'}
+}
 
 
 
