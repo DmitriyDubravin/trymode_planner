@@ -64,3 +64,19 @@ export const getDay = (time, token, callback) => {
 		}
 	});
 }
+
+export const setEventDone = (token, id, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'set_event_done',
+			token: token,
+			id: id
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			callback(res);
+		}
+	});
+}

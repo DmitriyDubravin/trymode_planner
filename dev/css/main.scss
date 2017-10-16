@@ -251,14 +251,48 @@ a {
 		background: $white;
 	}
 	.event {
-		border: 1px solid $brand-bg2;
+		position: relative;
+		border: 1px solid $brand-bg;
 		width: 100%;
 		padding: 0 10px;
 		line-height: 32px;
 		font-size: 14px;
 		// text-align: center;
-		color: $white;
-		background: $brand-bg;
+		color: $brand-bg;
+		background: $white;
+		.time {
+			line-height: 14px;
+			font-size: 10px;
+		}
+		&.done {
+			border: 1px solid $brand-bg2;
+			color: $white;
+			background: $brand-bg;
+		}
+		.settings {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			border-left: 1px solid $brand-bg2;
+			width: 32px;
+			button {
+				display: block;
+				margin: 0;
+				border: 0;
+				padding: 0;
+				width: 32px;
+				height: 32px;
+				line-height: 32px;
+				font-size: 16px;
+				color: $brand-fg;
+				background: none;
+				cursor: pointer;
+				i {
+					display: block;
+				}
+			}
+		}
 	}
 	.gap1 {
 		margin-left: calc(100% / 6);

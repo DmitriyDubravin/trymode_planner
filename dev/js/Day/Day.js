@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {getDay} from './../serverInteractions';
 import * as cf from './../functions';
+import Event from './Event';
 
 export default class Day extends Component {
 	constructor(props) {
@@ -48,7 +49,7 @@ export default class Day extends Component {
 				return <div className="cell" key={i}>{time[0]}:{time[1]}</div>
 			}
 		});
-			
+
 		this.props.data.dailyEvents.forEach(event => {
 			let date = new Date(event.start * 1000);
 			let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
@@ -56,7 +57,9 @@ export default class Day extends Component {
 			let startTime = `${days[index][0]}:${days[index][1]}`;
 			let endTime = lastIndex === 144 ? `00:00` : `${days[lastIndex][0]}:${days[lastIndex][1]}`;
 			let gap = lastIndex - Math.floor(lastIndex / 6) * 6;
-			daysCells[index] = <div className="event" key={index}>{startTime} - {endTime} | {event.idea}</div>;
+
+			daysCells[index] = <Event event={event} start={startTime} end={endTime} key={index} />;
+
 			for(let i = 1; i < event.dur / 10; i++) {
 				daysCells[index + i] = null;
 			}

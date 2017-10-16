@@ -93,6 +93,7 @@ if($_POST['type'] === 'get_day') {
 					"id" => $row['id'],
 					"start" => $row['start'],
 					"dur" => $row['dur'],
+					"status" => $row['status'],
 					"idea" => $row['idea']
 				);
 			}
