@@ -57,19 +57,20 @@ export default class Day extends Component {
 			let startTime = `${days[index][0]}:${days[index][1]}`;
 			let endTime = lastIndex === 144 ? `00:00` : `${days[lastIndex][0]}:${days[lastIndex][1]}`;
 			let gap = lastIndex - Math.floor(lastIndex / 6) * 6;
-
+			
 			daysCells[index] = <Event event={event} start={startTime} end={endTime} key={index} />;
 
 			for(let i = 1; i < event.dur / 10; i++) {
 				daysCells[index + i] = null;
 			}
+			
 			if(daysCells[lastIndex]) {
 				let cls = gap !== 0 ? `cell gap${gap}` : `cell`;
 				daysCells[lastIndex] = <div className={cls} key={lastIndex}>{days[lastIndex][0]}:{days[lastIndex][1]}</div>
 			}
 		});
 
-		let filteredCells = daysCells.filter((time,i) => time !== null);
+		let filteredCells = daysCells.filter(time => time !== null);
 
 		return (
 			<div className='day'>
