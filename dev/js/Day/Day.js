@@ -36,17 +36,22 @@ export default class Day extends Component {
 
 		let days = [];
 		for(let i = 0; i < 144; i++) {
-			let time = i * 10;
-			let rawHours = Math.floor(time / 60);
+			let rawHours = Math.floor(i * 10 / 60);
 			let hours = rawHours > 9 ? rawHours : '0' + rawHours;
-			let rawMinutes = time - hours * 60;
+			let rawMinutes = i * 10 - hours * 60;
 			let minutes = rawMinutes > 9 ? rawMinutes : '0' + rawMinutes;
-			days.push([hours, minutes]);
+			let time = Math.floor((this.props.date.selected + (rawHours * 60 + rawMinutes) * 60000) / 1000).toString();
+			days.push([hours, minutes, time]);
 		}
 
 		let daysCells = days.map((time,i) => {
 			if(time) {
-				return <div className="cell" key={i}>{time[0]}:{time[1]}</div>
+				return <div className="cell" key={i} onClick={() => {
+					console.log(1);
+// stopped HERE
+					this.props.startEvent({id: '0000', start: time[2]})
+
+				}}>{time[0]}:{time[1]}</div>
 			}
 		});
 

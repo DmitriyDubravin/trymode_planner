@@ -74,6 +74,8 @@ export const data = (state = initialData, action) => {
 	switch(action.type) {
 		case 'SAVE_DAILY_EVENTS':
 			return {...state, dailyEvents: action.dailyEvents};
+		case 'START_EVENT':
+			return {...state, dailyEvents: [...state.dailyEvents, action.event]};
 		default:
 			return state
 	}

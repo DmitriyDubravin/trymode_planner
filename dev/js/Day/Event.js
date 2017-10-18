@@ -6,15 +6,28 @@ export default class Event extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-            tools: false
+            tools: false,
+            status: this.props.event.status
         }
     }
     setStatusDone(id) {
         // setEventDone(id);
     }
     render() {
-
-        if(this.props.event.status === 'done') {
+        if(this.state.status === 'add') {
+            return (
+                <div className="event add">
+                    <form>
+                        <textarea></textarea>
+                        <select>
+                            <option>00:00</option>
+                        </select>
+                        <button><i className="icon-close"></i></button>
+                    </form>
+                </div>
+            )
+        }
+        else if(this.state.status === 'done') {
             return (
                 <div className="event done">
                     <span className="time">{this.props.start} - {this.props.end}</span> | {this.props.event.idea}
