@@ -46,12 +46,18 @@ export default class Day extends Component {
 
 		let daysCells = days.map((time,i) => {
 			if(time) {
-				return <div className="cell" key={i} onClick={() => {
-					console.log(1);
-// stopped HERE
-					this.props.startEvent({id: '0000', start: time[2]})
-
-				}}>{time[0]}:{time[1]}</div>
+				return (
+					<div
+						key={i}
+						className="cell"
+						onClick={
+							() => {
+								this.props.startEvent({id: '0', start: time[2], dur: 10})
+							}
+						}>
+						{time[0]}:{time[1]}
+					</div>
+				)
 			}
 		});
 
