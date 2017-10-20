@@ -34,59 +34,54 @@ export default class Day extends Component {
 	render() {
 		if(!this.props.data.dailyEvents) return <div>loading...</div>;
 
-		let days = [];
+		let cells = [];
 		for(let i = 0; i < 144; i++) {
 			let rawHours = Math.floor(i * 10 / 60);
 			let hours = rawHours > 9 ? rawHours : '0' + rawHours;
 			let rawMinutes = i * 10 - hours * 60;
 			let minutes = rawMinutes > 9 ? rawMinutes : '0' + rawMinutes;
 			let time = Math.floor((this.props.date.selected + (rawHours * 60 + rawMinutes) * 60000) / 1000).toString();
-			days.push([hours, minutes, time]);
+			cells.push([hours, minutes, time]);
 		}
-
-		let daysCells = days.map((time,i) => {
-			if(time) {
-				return (
-					<div
-						key={i}
-						className="cell"
-						onClick={
-							() => {
-								this.props.startEvent({id: '0', start: time[2], dur: 10})
-							}
-						}>
-						{time[0]}:{time[1]}
-					</div>
-				)
-			}
-		});
+		let emptyCells = cells.map((cell, i) => (
+			<div
+				key={i}
+				className="cell"
+				onClick={
+					() => {
+						this.props.startEvent({id: '0', start: cell[2], dur: 10})
+					}
+				}>
+				{cell[0]}:{cell[1]}
+			</div>
+		));
 
 		this.props.data.dailyEvents.forEach(event => {
 			let date = new Date(event.start * 1000);
 			let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
 			let lastIndex = index + event.dur / 10;
-			let startTime = `${days[index][0]}:${days[index][1]}`;
-			let endTime = lastIndex === 144 ? `00:00` : `${days[lastIndex][0]}:${days[lastIndex][1]}`;
+			let startTime = `${cells[index][0]}:${cells[index][1]}`;
+			let endTime = lastIndex === 144 ? `00:00` : `${cells[lastIndex][0]}:${cells[lastIndex][1]}`;
 			let gap = lastIndex - Math.floor(lastIndex / 6) * 6;
 			
-			daysCells[index] = <Event event={event} start={startTime} end={endTime} key={index} />;
+			emptyCells[index] = <Event event={event} start={startTime} end={endTime} key={index} />;
 
 			for(let i = 1; i < event.dur / 10; i++) {
-				daysCells[index + i] = null;
+				emptyCells[index + i] = null;
 			}
 			
-			if(daysCells[lastIndex]) {
+			if(cells[lastIndex]) {
 				let cls = gap !== 0 ? `cell gap${gap}` : `cell`;
-				daysCells[lastIndex] = <div className={cls} key={lastIndex}>{days[lastIndex][0]}:{days[lastIndex][1]}</div>
+				emptyCells[lastIndex] = <div className={cls} key={lastIndex}>{cells[lastIndex][0]}:{cells[lastIndex][1]}</div>
 			}
 		});
 
-		let filteredCells = daysCells.filter(time => time !== null);
+		// let filteredCells = emptyCells.filter(time => time !== null);
 
 		return (
 			<div className='day'>
 				<div className="days-cells">
-					{filteredCells}
+					{emptyCells}
 				</div>
 			</div>
 		);
