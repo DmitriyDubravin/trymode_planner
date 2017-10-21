@@ -67,15 +67,26 @@ export const layout = (state = initialLayout, action) => {
 	}
 }
 
+let day = {};
+for(let i = 0; i < 144; i++) {
+	let rawHours = Math.floor(i * 10 / 60);
+	let hours = rawHours > 9 ? '' + rawHours : '0' + rawHours;
+	let rawMinutes = i * 10 - hours * 60;
+	let minutes = rawMinutes > 9 ? '' + rawMinutes : '0' + rawMinutes;
+	day[i] = {hours: hours, minutes: minutes};
+}
+
 const initialData = {
-	dailyEvents: null
+	day: day
 }
 export const data = (state = initialData, action) => {
 	switch(action.type) {
-		case 'SAVE_DAILY_EVENTS':
-			return {...state, dailyEvents: action.dailyEvents};
-		case 'START_EVENT':
-			return {...state, dailyEvents: [...state.dailyEvents, action.event]};
+		case 'SET_DAY':
+			return Object.assign({}, ...state, {
+				day: {
+					...state.day, ...action.day
+				}
+			});
 		default:
 			return state
 	}

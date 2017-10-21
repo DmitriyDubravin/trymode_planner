@@ -16,11 +16,8 @@ export function setTokenAction(token) {
 
 
 
-export function saveDailyEventsAction(dailyEvents) {
-	return {type: 'SAVE_DAILY_EVENTS', dailyEvents: dailyEvents}
-}
-export function startEventAction(event) {
-	return {type: 'START_EVENT', event: event}
+export function setDayAction(day) {
+	return {type: 'SET_DAY', day: day}
 }
 
 

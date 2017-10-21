@@ -12,11 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		saveDailyEvents(dailyEvents) {
-			dispatch(Actions.saveDailyEventsAction(dailyEvents))
-		},
-		startEvent(event) {
-			dispatch(Actions.startEventAction(event))
+		setDay(day) {
+			dispatch(Actions.setDayAction(day))
 		}
 	}
 }
