@@ -79,7 +79,21 @@ const initialData = {
 export const data = (state = initialData, action) => {
 	switch(action.type) {
 		case 'SET_DAY':
-			return Object.assign({}, ...state, {day: action.day});
+			return {
+				...state,
+				day: action.day
+			};
+		// case 'ADD_EVENT':
+		// 	return {
+		// 		...state,
+		// 		day: {
+		// 			...state.day,
+		// 			[action.key]: {
+		// 				...state.day[action.key],
+		// 				status: 'adding'
+		// 			}
+		// 		}
+		// 	};
 		default:
 			return state
 	}

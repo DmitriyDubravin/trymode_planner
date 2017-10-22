@@ -6,6 +6,10 @@ import Event from './Event';
 export default class Day extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			addingEvent: null,
+			addingEventDur: 0
+		}
 	}
 
 	getAndSetDay() {
@@ -39,6 +43,11 @@ export default class Day extends Component {
 		}
 	}
 
+	addEvent = key => {
+		this.setState({addingEvent: key});
+		console.log(this.state.addingEvent);
+	}
+
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
 
@@ -58,13 +67,34 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 				
+			} else if(this.state.addingEvent === i) {
+				let endMinutes = hours * 60 + minutes + 10;
+				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
+
+				dayCells[i] = (
+					<div key={i} className="add-event-form">
+						<form>
+							<textarea></textarea>
+							<div className="buttons">
+								<button className="button">Delete</button>
+								<div className="start">00:00</div>
+								<div className="finish">
+									<select>
+										<option>00:00</option>
+									</select>
+								</div>
+								<button className="button">Add</button>
+							</div>
+						</form>
+					</div>
+				)
 			} else {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
 					<div
 						key={i}
 						className={cls}
-						/* onClick={} */
+						onClick={() => this.addEvent(i)}
 						>
 						{cf.formatHoursMinutes(hours, minutes)}
 					</div>

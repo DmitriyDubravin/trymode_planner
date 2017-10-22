@@ -23,20 +23,7 @@ export default class Event extends Component {
         let endMinutes = totalEndMinutes - endHours * 60;
         let endTime = totalEndMinutes === 24 * 60 ? `00:00` : cf.formatHoursMinutes(endHours, endMinutes);
 
-        if(this.state.status === 'add') {
-            return (
-                <div className="event add">
-                    <form>
-                        <textarea></textarea>
-                        <select>
-                            <option>00:00</option>
-                        </select>
-                        <button><i className="icon-close"></i></button>
-                    </form>
-                </div>
-            )
-        }
-        else if(this.state.status === 'done') {
+        if(this.state.status === 'done') {
             return (
                 <div className="event done">
                     <span className="time">{startTime} - {endTime}</span> | {this.props.event.idea}
