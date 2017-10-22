@@ -8,96 +8,68 @@ export default class Day extends Component {
 		super(props);
 	}
 
-	componentDidMount() {
-		const sss = (data) => {
-			let day = {};
-			for(let i = 0; i < data.data.length; i++) {
-				let date = new Date(data.data[i].start * 1000);
-				let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
-				day[index] = data.data[i];
+	getAndSetDay() {
+		const handleDayData = (data) => {
+			if(data.response === 'no events was found') {
+				this.props.setDay(null);
+			} else {
+				let day = cf.buildInitialDayCells();
+				for(let i = 0; i < data.data.length; i++) {
+					let date = new Date(data.data[i].start * 1000);
+					let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
+					day[index] = {...day[index], ...data.data[i]};
+				}
+				this.props.setDay(day);
 			}
-			this.props.setDay(day);
 		}
 		getDay(
 			Math.floor(this.props.date.selected / 1000),
 			this.props.user.token,
-			sss
+			handleDayData
 		);
 	}
+
+	componentDidMount() {
+		this.getAndSetDay();
+	}
+
 	componentDidUpdate(prevProps) {
 		if(prevProps.date.selected !== this.props.date.selected) {
-			const sss = (data) => {
-				this.props.setDay(data.data)
-			}
-			getDay(
-				Math.floor(this.props.date.selected / 1000),
-				this.props.user.token,
-				sss
-			);
+			this.getAndSetDay();
 		}
 	}
 
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
 
-		// let cells = [];
-		// for(let i = 0; i < 144; i++) {
-		// 	let rawHours = Math.floor(i * 10 / 60);
-		// 	let hours = rawHours > 9 ? rawHours : '0' + rawHours;
-		// 	let rawMinutes = i * 10 - hours * 60;
-		// 	let minutes = rawMinutes > 9 ? rawMinutes : '0' + rawMinutes;
-		// 	let time = Math.floor((this.props.date.selected + (rawHours * 60 + rawMinutes) * 60000) / 1000).toString();
-		// 	cells.push([hours, minutes, time]);
-		// }
-		// let emptyCells = cells.map((cell, i) => (
-		// 	<div
-		// 		key={i}
-		// 		className="cell"
-		// 		onClick={
-		// 			() => {
-		// 				this.props.startEvent({id: '0', start: cell[2], dur: 10})
-		// 			}
-		// 		}>
-		// 		{cell[0]}:{cell[1]}
-		// 	</div>
-		// ));
-
-		// this.props.data.dailyEvents.forEach(event => {
-		// 	let date = new Date(event.start * 1000);
-		// 	let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
-		// 	let lastIndex = index + event.dur / 10;
-		// 	let startTime = `${cells[index][0]}:${cells[index][1]}`;
-		// 	let endTime = lastIndex === 144 ? `00:00` : `${cells[lastIndex][0]}:${cells[lastIndex][1]}`;
-		// 	let gap = lastIndex - Math.floor(lastIndex / 6) * 6;
-			
-		// 	emptyCells[index] = <Event event={event} start={startTime} end={endTime} key={index} />;
-
-		// 	for(let i = 1; i < event.dur / 10; i++) {
-		// 		emptyCells[index + i] = null;
-		// 	}
-			
-		// 	if(cells[lastIndex]) {
-		// 		let cls = gap !== 0 ? `cell gap${gap}` : `cell`;
-		// 		emptyCells[lastIndex] = <div className={cls} key={lastIndex}>{cells[lastIndex][0]}:{cells[lastIndex][1]}</div>
-		// 	}
-		// });
-
-		// let filteredCells = emptyCells.filter(time => time !== null);
-
 		let dayCells = [];
+		let gap = 0;
+
 		for(let i = 0; i < 144; i++) {
-			if(!this.props.data.day[i].id) {
-				let hours = this.props.data.day[i].hours;
-				let minutes = this.props.data.day[i].minutes;
-				dayCells[i] = (<div key={i} className="cell">{hours}:{minutes}</div>)
+			let {hours, minutes} = this.props.data.day[i];
+			let cell = this.props.data.day[i];
+
+
+
+			if(cell.id) {
+				dayCells[i] = <Event key={i} event={cell}/>;
+				i += +cell.dur / 10 - 1;
+
+				let endMinutes = hours * 60 + minutes + +cell.dur;
+				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
+				
 			} else {
-				let rawHours = Math.floor(i * 10 / 60);
-				let hours = rawHours > 9 ? '' + rawHours : '0' + rawHours;
-				let rawMinutes = i * 10 - hours * 60;
-				let minutes = rawMinutes > 9 ? '' + rawMinutes : '0' + rawMinutes;
-				let startTime = `${hours}:${minutes}`;
-				let endTime = i === 144 ? `00:00` : `${hours}:${minutes}`;
-				dayCells[i] = <Event key={i} event={this.props.data.day[i]} start={startTime} end={endTime} />;
+				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
+				dayCells[i] = (
+					<div
+						key={i}
+						className={cls}
+						/* onClick={} */
+						>
+						{cf.formatHoursMinutes(hours, minutes)}
+					</div>
+				)
+				gap = 0;
 			}
 
 		}

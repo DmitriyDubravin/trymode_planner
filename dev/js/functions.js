@@ -62,3 +62,19 @@ export const escapeHtml = (string) => {
 		return entityMap[s];
 	});
 }
+
+export const buildInitialDayCells = () => {
+	let cells = {}
+	for(let i = 0; i < 144; i++) {
+		let hours = Math.floor(i * 10 / 60);
+		let minutes = i * 10 - hours * 60;
+		cells[i] = {hours: hours, minutes: minutes};
+	}
+	return cells;
+}
+
+export const formatHoursMinutes = (rawHours, rawMinutes) => {
+	let hours = rawHours > 9 ? '' + rawHours : '0' + rawHours;
+	let minutes = rawMinutes > 9 ? '' + rawMinutes : '0' + rawMinutes;
+	return `${hours}:${minutes}`;
+}
