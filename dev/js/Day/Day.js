@@ -45,7 +45,9 @@ export default class Day extends Component {
 
 	addEvent = key => {
 		this.setState({addingEvent: key});
-		console.log(this.state.addingEvent);
+	}
+	cancelAddingEvent = () => {
+		this.setState({addingEvent: null});
 	}
 
 	render() {
@@ -71,19 +73,28 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + 10;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
+				let options = [];
+				for(let o = i + 1; o < 144; o++) {
+					options.push(<option key={o}>{cf.formatHoursMinutes(this.props.data.day[o].hours, this.props.data.day[o].minutes)}</option>);
+					if(this.props.data.day[o].id) break;
+				}
+
 				dayCells[i] = (
 					<div key={i} className="add-event-form">
 						<form>
 							<textarea></textarea>
 							<div className="buttons">
-								<button className="button">Delete</button>
-								<div className="start">00:00</div>
-								<div className="finish">
-									<select>
-										<option>00:00</option>
-									</select>
+								<button className="button" onClick={() => this.cancelAddingEvent()}><i className="icon-cross"></i></button>
+								<div className="time">
+									<div className="start">{cf.formatHoursMinutes(hours, minutes)}</div>
+									<div className="hyphen">-</div>
+									<div className="finish">
+										<select>
+											{options}
+										</select>
+									</div>
 								</div>
-								<button className="button">Add</button>
+								<button className="button"><i className="icon-plus"></i></button>
 							</div>
 						</form>
 					</div>
