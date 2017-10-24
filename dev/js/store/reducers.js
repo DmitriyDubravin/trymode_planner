@@ -83,17 +83,17 @@ export const data = (state = initialData, action) => {
 				...state,
 				day: action.day
 			};
-		// case 'ADD_EVENT':
-		// 	return {
-		// 		...state,
-		// 		day: {
-		// 			...state.day,
-		// 			[action.key]: {
-		// 				...state.day[action.key],
-		// 				status: 'adding'
-		// 			}
-		// 		}
-		// 	};
+		case 'SET_EVENT':
+			return {
+				...state,
+				day: {
+					...state.day,
+					[action.key]: {
+						...state.day[action.key],
+						status: 'adding'
+					}
+				}
+			};
 		default:
 			return state
 	}
