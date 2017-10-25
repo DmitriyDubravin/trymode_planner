@@ -58,7 +58,6 @@ export default class Day extends Component {
 			status: ""
 		};
 		console.log(event);
-		// this.props.setEvent(event);
 	}
 	changeHandler = e => {
 		let name = e.target.name;
