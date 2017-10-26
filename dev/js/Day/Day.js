@@ -7,7 +7,8 @@ export default class Day extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			addingEventId: null
+			addingEventId: null,
+			addingEventDur: 10
 		}
 	}
 
@@ -16,7 +17,7 @@ export default class Day extends Component {
 			if(data.response === 'no events was found') {
 				this.props.setDay(null);
 			} else {
-				let day = cf.buildInitialDayCells();
+				let day = cf.buildInitialDayCells(this.props.date.selected);
 				for(let i = 0; i < data.data.length; i++) {
 					let date = new Date(data.data[i].start * 1000);
 					let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
@@ -51,8 +52,7 @@ export default class Day extends Component {
 	addEvent = e => {
 		e.preventDefault();
 		let event = {
-			id: this.eventId.defaultValue,
-			start: null,
+			start: this.eventTime.defaultValue,
 			dur: this.state.addingEventDur,
 			idea: this.state.addingEventText,
 			status: ""
@@ -72,7 +72,7 @@ export default class Day extends Component {
 		let gap = 0;
 
 		for(let i = 0; i < 144; i++) {
-			let {hours, minutes} = this.props.data.day[i];
+			let {hours, minutes, time} = this.props.data.day[i];
 			let cell = this.props.data.day[i];
 
 
@@ -112,7 +112,7 @@ export default class Day extends Component {
 										</select>
 									</div>
 								</div>
-								<input type="hidden" name="addingEventId" value={i} ref={eventId => this.eventId = eventId} />
+								<input type="hidden" name="time" value={time} ref={eventTime => this.eventTime = eventTime} />
 								<button className="submit"><i className="icon-plus"></i></button>
 							</div>
 						</form>

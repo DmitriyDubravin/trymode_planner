@@ -63,12 +63,13 @@ export const escapeHtml = (string) => {
 	});
 }
 
-export const buildInitialDayCells = () => {
+export const buildInitialDayCells = (selectedTime) => {
 	let cells = {}
 	for(let i = 0; i < 144; i++) {
 		let hours = Math.floor(i * 10 / 60);
 		let minutes = i * 10 - hours * 60;
-		cells[i] = {hours: hours, minutes: minutes};
+		let time = selectedTime + ((hours * 60 + minutes) * 60000);
+		cells[i] = {hours: hours, minutes: minutes, time: time};
 	}
 	return cells;
 }
