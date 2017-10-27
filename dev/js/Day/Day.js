@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getDay, addEvent} from './../serverInteractions';
+import {getDay, addEvent, deleteEvent, eventDone, eventUndone} from './../serverInteractions';
 import * as cf from './../functions';
 import Event from './Event';
 
@@ -8,7 +8,8 @@ export default class Day extends Component {
 		super(props);
 		this.state = {
 			addingEventId: null,
-			addingEventDur: 10
+			addingEventDur: 10,
+			addingEventText: null
 		}
 	}
 
@@ -38,6 +39,7 @@ export default class Day extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
+		console.log('updated');
 		if(prevProps.date.selected !== this.props.date.selected) {
 			this.getAndSetDay();
 		}
@@ -47,29 +49,49 @@ export default class Day extends Component {
 		this.setState({addingEventId: key});
 	}
 	cancelAddingEvent = () => {
-		this.setState({addingEvent: null});
+		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
 	}
 	submitAddingEvent = e => {
 		e.preventDefault();
-		let startTime = this.eventTime.defaultValue / 1000;
-		addEvent(
-			this.props.user.token,
-			{
-				start: startTime,
-				dur: this.state.addingEventDur,
-				idea: this.state.addingEventText
-			},
-			this.getAndSetDay.bind(this)
-		);
+		if(this.state.addingEventText) {
+			addEvent(
+				this.props.user.token,
+				{
+					start: this.eventTime.defaultValue / 1000,
+					dur: this.state.addingEventDur,
+					idea: this.state.addingEventText
+				},
+				this.getAndSetDay.bind(this)
+			);
+		}
 	}
 	changeHandler = e => {
 		let name = e.target.name;
 		let value = e.target.value;
 		this.setState({[name]: value});
 	}
-	removeEvent(id) {
-        console.log(id);
-    }
+	removeEvent = id => {
+		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
+		deleteEvent(
+			this.props.user.token,
+			id,
+			this.getAndSetDay.bind(this)
+		);
+	}
+	setEventStatusDone = id => {
+		eventDone(
+			this.props.user.token,
+			id,
+			this.getAndSetDay.bind(this)
+		);
+	}
+	setEventStatusUndone = id => {
+		eventUndone(
+			this.props.user.token,
+			id,
+			this.getAndSetDay.bind(this)
+		);
+	}
 
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
@@ -84,7 +106,15 @@ export default class Day extends Component {
 
 
 			if(cell.id) {
-				dayCells[i] = <Event key={i} event={cell} removeEvent={this.removeEvent} />;
+				dayCells[i] = (
+					<Event
+						key={i}
+						event={cell}
+						removeEvent={this.removeEvent}
+						setEventStatusDone={this.setEventStatusDone}
+						setEventStatusUndone={this.setEventStatusUndone}
+					/>
+				);
 				i += +cell.dur / 10 - 1;
 
 				let endMinutes = hours * 60 + minutes + +cell.dur;

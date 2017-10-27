@@ -11,6 +11,11 @@ export default class Event extends Component {
             status: this.props.event.status
         }
     }
+    componentDidUpdate(prevProps) {
+        if(prevProps.event.status !== this.props.event.status) {
+            this.setState({tools: false, status: this.props.event.status})
+        }
+    }
     setStatusDone(id) {
         // setEventDone(id);
     }
@@ -28,7 +33,7 @@ export default class Event extends Component {
                 <div className="event done">
                     <span className="time">{startTime} - {endTime}</span> | {this.props.event.idea}
                     <div className="settings">
-                        <button onClick={() => {}}><i className="icon-checkmark"></i></button>
+                        <button onClick={() => {this.props.setEventStatusUndone(id)}}><i className="icon-checkmark"></i></button>
                     </div>
                 </div>
             )
@@ -44,7 +49,7 @@ export default class Event extends Component {
                         {this.state.tools && <div className="tools">
                             <button onClick={() => {this.props.removeEvent(id)}}><i className="icon-bin"></i></button>
                             <button onClick={() => {}}><i className="icon-shuffle"></i></button>
-                            <button onClick={() => {}}><i className="icon-checkmark"></i></button>
+                            <button onClick={() => {this.props.setEventStatusDone(id)}}><i className="icon-checkmark"></i></button>
                             <button onClick={() => {}}><i className="icon-pencil"></i></button>
                             <button onClick={() => {this.setState({tools: false})}}><i className="icon-arrow-right2"></i></button>
                         </div>}

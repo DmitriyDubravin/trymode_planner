@@ -100,3 +100,57 @@ export const addEvent = (token, data, callback) => {
 		}
 	});
 }
+
+export const deleteEvent = (token, id, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'delete_event',
+			token: token,
+			id: id
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			if(res.isEventDeleted) {
+				callback();
+			}
+		}
+	});
+}
+
+export const eventDone = (token, id, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'event_done',
+			token: token,
+			id: id
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			if(res.isEventDone) {
+				callback();
+			}
+		}
+	});
+}
+
+export const eventUndone = (token, id, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'event_undone',
+			token: token,
+			id: id
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			if(res.isEventUndone) {
+				callback();
+			}
+		}
+	});
+}

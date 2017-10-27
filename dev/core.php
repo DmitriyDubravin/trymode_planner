@@ -195,6 +195,67 @@ if($_POST['type'] === 'add_event') {
 
 
 
+// DELETE EVENT
+
+if($_POST['type'] === 'delete_event') {
+	
+	$token = clear($_POST['token']);
+	$id = clear($_POST['id']);
+
+	$nickname = userCheck($token);
+	
+	if($nickname) {
+		mysqli_query($db, "DELETE FROM planner WHERE user = '$nickname' AND id = '$id'");
+
+		$arr = array('isEventDeleted' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
+	
+	
+// EVENT DONE
+
+if($_POST['type'] === 'event_done') {
+	
+	$token = clear($_POST['token']);
+	$id = clear($_POST['id']);
+
+	$nickname = userCheck($token);
+	
+	if($nickname) {
+		mysqli_query($db,"UPDATE planner SET status = 'done' WHERE user = '$nickname' AND id = '$id'");
+
+		$arr = array('isEventDone' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
+
+// EVENT UNDONE
+
+if($_POST['type'] === 'event_undone') {
+	
+	$token = clear($_POST['token']);
+	$id = clear($_POST['id']);
+
+	$nickname = userCheck($token);
+	
+	if($nickname) {
+		mysqli_query($db,"UPDATE planner SET status = '' WHERE user = '$nickname' AND id = '$id'");
+
+		$arr = array('isEventUndone' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
+
+
+
+
 
 
 
