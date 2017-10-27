@@ -15,7 +15,7 @@ export default class Event extends Component {
         // setEventDone(id);
     }
     render() {
-        const {hours, minutes, dur, idea} = this.props.event;
+        const {id, hours, minutes, dur, idea} = this.props.event;
 
         let startTime = cf.formatHoursMinutes(hours, minutes);
         let totalEndMinutes = hours * 60 + minutes + +dur;
@@ -42,7 +42,7 @@ export default class Event extends Component {
                     <div className="settings">
                         {!this.state.tools && <button onClick={() => {this.setState({tools: true})}}><i className="icon-cog"></i></button>}
                         {this.state.tools && <div className="tools">
-                            <button onClick={() => {}}><i className="icon-bin"></i></button>
+                            <button onClick={() => {this.props.removeEvent(id)}}><i className="icon-bin"></i></button>
                             <button onClick={() => {}}><i className="icon-shuffle"></i></button>
                             <button onClick={() => {}}><i className="icon-checkmark"></i></button>
                             <button onClick={() => {}}><i className="icon-pencil"></i></button>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getDay} from './../serverInteractions';
+import {getDay, addEvent} from './../serverInteractions';
 import * as cf from './../functions';
 import Event from './Event';
 
@@ -49,21 +49,27 @@ export default class Day extends Component {
 	cancelAddingEvent = () => {
 		this.setState({addingEvent: null});
 	}
-	addEvent = e => {
+	submitAddingEvent = e => {
 		e.preventDefault();
-		let event = {
-			start: this.eventTime.defaultValue,
-			dur: this.state.addingEventDur,
-			idea: this.state.addingEventText,
-			status: ""
-		};
-		console.log(event);
+		let startTime = this.eventTime.defaultValue / 1000;
+		addEvent(
+			this.props.user.token,
+			{
+				start: startTime,
+				dur: this.state.addingEventDur,
+				idea: this.state.addingEventText
+			},
+			this.getAndSetDay.bind(this)
+		);
 	}
 	changeHandler = e => {
 		let name = e.target.name;
 		let value = e.target.value;
 		this.setState({[name]: value});
 	}
+	removeEvent(id) {
+        console.log(id);
+    }
 
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
@@ -78,7 +84,7 @@ export default class Day extends Component {
 
 
 			if(cell.id) {
-				dayCells[i] = <Event key={i} event={cell}/>;
+				dayCells[i] = <Event key={i} event={cell} removeEvent={this.removeEvent} />;
 				i += +cell.dur / 10 - 1;
 
 				let endMinutes = hours * 60 + minutes + +cell.dur;
@@ -99,7 +105,7 @@ export default class Day extends Component {
 
 				dayCells[i] = (
 					<div key={i} className="add-event-form">
-						<form onSubmit={this.addEvent}>
+						<form onSubmit={this.submitAddingEvent}>
 							<textarea name="addingEventText" onChange={this.changeHandler}></textarea>
 							<div className="buttons">
 								<button className="button" onClick={this.cancelAddingEvent}><i className="icon-cross"></i></button>

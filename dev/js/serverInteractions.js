@@ -81,18 +81,22 @@ export const setEventDone = (token, id, callback) => {
 	});
 }
 
-export const addEvent = (token, callback) => {
+export const addEvent = (token, data, callback) => {
 	$.ajax({
 		url: serverUrl,
 		data: {
 			type: 'add_event',
 			token: token,
-			id: id
+			start: data.start,
+			dur: data.dur,
+			idea: data.idea
 		},
 		type: 'POST',
 		success: function(response) {
 			let res = $.parseJSON(response);
-			callback(res);
+			if(res.isEventAdded) {
+				callback();
+			}
 		}
 	});
 }

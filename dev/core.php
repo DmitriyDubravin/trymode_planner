@@ -164,6 +164,34 @@ if($_POST['type'] === 'get_events') {
 
 
 
+// ADD EVENT
+
+if($_POST['type'] === 'add_event') {
+
+	$token = clear($_POST['token']);
+	$start = clear($_POST['start']);
+	$dur = clear($_POST['dur']);
+	$idea = clear($_POST['idea']);
+
+	$nickname = userCheck($token);
+	
+	if($nickname) {
+		mysqli_query($db, "INSERT INTO planner VALUES (
+			'',
+			'$nickname',
+			'$start',
+			'$dur',
+			'',
+			'$idea',
+			''
+		)");
+
+		$arr = array('isEventAdded' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
 
 
 
