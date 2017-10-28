@@ -9,23 +9,23 @@ export default class Day extends Component {
 		this.state = {
 			addingEventId: null,
 			addingEventDur: 10,
-			addingEventText: null
+			addingEventText: null,
+			movingEventId: null,
+			movingEventKey: null
 		}
 	}
 
 	getAndSetDay() {
 		const handleDayData = (data) => {
-			if(data.response === 'no events was found') {
-				this.props.setDay(null);
-			} else {
-				let day = cf.buildInitialDayCells(this.props.date.selected);
+			let day = cf.buildInitialDayCells(this.props.date.selected);
+			if(data.response !== 'no events was found') {
 				for(let i = 0; i < data.data.length; i++) {
 					let date = new Date(data.data[i].start * 1000);
 					let index = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes()) / 10);
 					day[index] = {...day[index], ...data.data[i]};
 				}
-				this.props.setDay(day);
 			}
+			this.props.setDay(day);
 		}
 		getDay(
 			Math.floor(this.props.date.selected / 1000),
@@ -39,14 +39,15 @@ export default class Day extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log('updated');
 		if(prevProps.date.selected !== this.props.date.selected) {
 			this.getAndSetDay();
 		}
 	}
 
 	startAddingEvent = key => {
-		this.setState({addingEventId: key});
+		if(!this.state.movingEventId) {
+			this.setState({addingEventId: key});
+		}
 	}
 	cancelAddingEvent = () => {
 		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
@@ -93,6 +94,12 @@ export default class Day extends Component {
 		);
 	}
 
+	moveEvent = (id, key) => {
+		console.log(id, key);
+		this.setState({movingEventId: id, movingEventKey: key});
+	}
+
+
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
 
@@ -105,14 +112,16 @@ export default class Day extends Component {
 
 
 
-			if(cell.id) {
+			if(cell.id && cell.id !== this.state.movingEventId) {
 				dayCells[i] = (
 					<Event
 						key={i}
+						i={i}
 						event={cell}
 						removeEvent={this.removeEvent}
 						setEventStatusDone={this.setEventStatusDone}
 						setEventStatusUndone={this.setEventStatusUndone}
+						moveEvent={this.moveEvent}
 					/>
 				);
 				i += +cell.dur / 10 - 1;
@@ -125,11 +134,17 @@ export default class Day extends Component {
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
 				let options = [];
+				if(i === 143) {
+					options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
+				}
 				for(let o = i + 1; o < 144; o++) {
 					let startingMinutes = hours * 60 + minutes;
 					let endingMinutes = this.props.data.day[o].hours * 60 + this.props.data.day[o].minutes;
 					let dur = endingMinutes - startingMinutes;
 					options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(this.props.data.day[o].hours, this.props.data.day[o].minutes)}</option>);
+					if(o === 143) {
+						options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
+					}
 					if(this.props.data.day[o].id) break;
 				}
 
@@ -170,11 +185,19 @@ export default class Day extends Component {
 
 		}
 
+		let movingEvent = null;
+		if(this.state.movingEventId) {
+			let me = this.props.data.day[this.state.movingEventKey];
+			movingEvent = `${me.idea}:${me.dur}`;
+		}
+		
+
 		return (
 			<div className='day'>
 				<div className="days-cells">
 					{dayCells}
 				</div>
+				{movingEvent}
 			</div>
 		);
 	}
