@@ -1,20 +1,11 @@
 const {dev} = require('./common');
 
 module.exports = dev
-? [
-	{
-		test: /\.(png|svg|jpg|gif)$/,
-		exclude: /fonts/,
-		use: [
-			{
-				loader: 'file-loader'
-			}
-		]
-	}
-]
+? null
 : [
 	{
-		test: /\.(png|svg|jpg|gif)$/,
+		test: /\.(eot|svg|ttf|woff)$/,
+		exclude: /images/,
 		use: [
 			{
 				loader: 'file-loader',
