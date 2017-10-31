@@ -9,9 +9,7 @@ export default class Day extends Component {
 		this.state = {
 			addingEventId: null,
 			addingEventDur: 10,
-			addingEventText: null,
-			movingEventId: null,
-			movingEventKey: null
+			addingEventText: null
 		}
 	}
 
@@ -95,8 +93,8 @@ export default class Day extends Component {
 	}
 
 	moveEvent = (id, key) => {
-		console.log(id, key);
-		this.setState({movingEventId: id, movingEventKey: key});
+		this.props.setMovingEvent({id: id, key: key});
+		this.props.movingEventOn();
 	}
 
 

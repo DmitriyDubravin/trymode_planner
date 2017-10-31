@@ -22,6 +22,9 @@ export function setDayAction(day) {
 export function setEventAction(event) {
 	return {type: 'SET_EVENT', event: event}
 }
+export function setMovingEventAction(movingEvent) {
+	return {type: 'SET_MOVING_EVENT', movingEvent: movingEvent}
+}
 
 
 
@@ -36,6 +39,12 @@ export function loginToggleAction() {
 }
 export function dayToggleAction() {
 	return {type: 'DAY_TOGGLE'}
+}
+export function movingEventOnAction() {
+	return {type: 'MOVING_EVENT_ON'}
+}
+export function movingEventOffAction() {
+	return {type: 'MOVING_EVENT_OFF'}
 }
 
 

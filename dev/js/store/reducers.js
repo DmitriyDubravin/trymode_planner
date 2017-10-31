@@ -36,7 +36,8 @@ export const user = (state = initialUser, action) => {
 const initialLayout = {
 	login: false,
 	toolbar: false,
-	calendar: false
+	calendar: false,
+	movingEvent: false
 }
 export const layout = (state = initialLayout, action) => {
 	switch(action.type) {
@@ -48,6 +49,10 @@ export const layout = (state = initialLayout, action) => {
 			return {...state, calendar: !state.calendar};
 		case 'DAY_TOGGLE':
 			return {...state, day: !state.day};
+		case 'MOVING_EVENT_ON':
+			return {...state, movingEvent: true};
+		case 'MOVING_EVENT_OFF':
+			return {...state, movingEvent: false};
 		case 'CALENDAR_OFF':
 			return {...state, calendar: false};
 		case 'PAGE_MAIN':
@@ -74,7 +79,8 @@ export const layout = (state = initialLayout, action) => {
 
 
 const initialData = {
-	day: null
+	day: null,
+	movingEvent: null
 }
 export const data = (state = initialData, action) => {
 	switch(action.type) {
@@ -93,6 +99,11 @@ export const data = (state = initialData, action) => {
 						status: 'adding'
 					}
 				}
+			};
+		case 'SET_MOVING_EVENT':
+			return {
+				...state,
+				movingEvent: action.movingEvent
 			};
 		default:
 			return state
