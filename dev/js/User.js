@@ -33,7 +33,6 @@ export default class User extends Component {
 	}
 
 	render() {
-
 		return (
 			<div className='login-form'>
 				<Form>
