@@ -254,11 +254,25 @@ if($_POST['type'] === 'event_undone') {
 }
 
 
+// MOVE EVENT
 
+if($_POST['type'] === 'move_event') {
+	
+	$token = clear($_POST['token']);
+	$id = clear($_POST['id']);
+	$time = clear($_POST['time']);
+	$dur = 10;
 
+	$nickname = userCheck($token);
 
-
-
+	if($nickname) {
+		mysqli_query($db,"UPDATE planner SET start = '$time', dur = '$dur' WHERE user = '$nickname' AND id = '$id'");
+		$arr = array('isEventMoved' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
 
 
 

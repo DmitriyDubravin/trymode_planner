@@ -154,3 +154,23 @@ export const eventUndone = (token, id, callback) => {
 		}
 	});
 }
+
+export const moveEvent = (token, id, newTime, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'move_event',
+			token: token,
+			id: id,
+			time: newTime
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			if(res.isEventMoved) {
+				callback();
+			}
+		}
+	});
+}
+

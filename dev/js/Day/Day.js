@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getDay, addEvent, deleteEvent, eventDone, eventUndone} from './../serverInteractions';
+import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent} from './../serverInteractions';
 import * as cf from './../functions';
 import Event from './Event';
 
@@ -47,6 +47,17 @@ export default class Day extends Component {
 			this.setState({addingEventId: key});
 		}
 	}
+
+	moveHere = (newTime) => {
+		moveEvent(
+			this.props.user.token,
+			this.props.data.movingEvent.event.id,
+			newTime / 1000,
+			this.getAndSetDay.bind(this)
+		);
+		this.props.movingEventOff();
+	}
+
 	cancelAddingEvent = () => {
 		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
 	}
@@ -92,8 +103,8 @@ export default class Day extends Component {
 		);
 	}
 
-	moveEvent = (id, key) => {
-		this.props.setMovingEvent({id: id, key: key});
+	moveEvent = (key, event) => {
+		this.props.setMovingEvent({key: key, event: event});
 		this.props.movingEventOn();
 	}
 
@@ -173,8 +184,16 @@ export default class Day extends Component {
 					<div
 						key={i}
 						className={cls}
-						onClick={() => this.startAddingEvent(i)}
-						>
+						onClick={
+							() => {
+								if(this.props.data.movingEvent) {
+									this.moveHere(time);
+								} else {
+									this.startAddingEvent(i);
+								}
+							}
+						}
+					>
 						{cf.formatHoursMinutes(hours, minutes)}
 					</div>
 				)
@@ -183,19 +202,11 @@ export default class Day extends Component {
 
 		}
 
-		let movingEvent = null;
-		if(this.state.movingEventId) {
-			let me = this.props.data.day[this.state.movingEventKey];
-			movingEvent = `${me.idea}:${me.dur}`;
-		}
-		
-
 		return (
 			<div className='day'>
 				<div className="days-cells">
 					{dayCells}
 				</div>
-				{movingEvent}
 			</div>
 		);
 	}
