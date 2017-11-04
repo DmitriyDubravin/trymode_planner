@@ -9,7 +9,9 @@ export default class Day extends Component {
 		this.state = {
 			addingEventId: null,
 			addingEventDur: 10,
-			addingEventText: null
+			addingEventText: null,
+			editingEventId: null,
+			editingEventIndex: null
 		}
 	}
 
@@ -55,6 +57,7 @@ export default class Day extends Component {
 			newTime / 1000,
 			this.getAndSetDay.bind(this)
 		);
+		this.props.setMovingEvent(null);
 		this.props.movingEventOff();
 	}
 
@@ -109,6 +112,12 @@ export default class Day extends Component {
 	}
 
 
+	editEvent = (i, id) => {
+		this.setState({editingEventId: id, editingEventIndex: i});
+	}
+
+
+
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
 
@@ -121,7 +130,7 @@ export default class Day extends Component {
 
 
 
-			if(cell.id && cell.id !== this.state.movingEventId) {
+			if(cell.id && cell.id !== this.state.movingEventId && cell.id !== this.state.editingEventId) {
 				dayCells[i] = (
 					<Event
 						key={i}
@@ -131,6 +140,7 @@ export default class Day extends Component {
 						setEventStatusDone={this.setEventStatusDone}
 						setEventStatusUndone={this.setEventStatusUndone}
 						moveEvent={this.moveEvent}
+						editEvent={this.editEvent}
 					/>
 				);
 				i += +cell.dur / 10 - 1;
@@ -178,6 +188,45 @@ export default class Day extends Component {
 						</form>
 					</div>
 				)
+			} else if(this.state.editingEventIndex === i && cell.id && this.state.editingEventId === cell.id) {
+				let options = [];
+				if(i === 143) {
+					options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
+				}
+				for(let o = i + 1; o < 144; o++) {
+					let startingMinutes = hours * 60 + minutes;
+					let endingMinutes = this.props.data.day[o].hours * 60 + this.props.data.day[o].minutes;
+					let dur = endingMinutes - startingMinutes;
+					options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(this.props.data.day[o].hours, this.props.data.day[o].minutes)}</option>);
+					if(o === 143) {
+						options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
+					}
+					if(this.props.data.day[o].id) break;
+				}
+
+// STOPPED HERE! 
+
+				dayCells[i] = (
+					<div key={i} className="add-event-form">
+						<form onSubmit={this.submitAddingEvent}>
+							<textarea name="addingEventText" onChange={this.changeHandler} defaultValue={cell.idea}></textarea>
+							<div className="buttons">
+								<button className="button" onClick={this.cancelAddingEvent}><i className="icon-cross"></i></button>
+								<div className="time">
+									<div className="start">{cf.formatHoursMinutes(hours, minutes)}</div>
+									<div className="hyphen">-</div>
+									<div className="finish">
+										<select name="addingEventDur" onChange={this.changeHandler} defaultValue={cell.dur}>
+											{options}
+										</select>
+									</div>
+								</div>
+								<input type="hidden" name="time" value={time} ref={eventTime => this.eventTime = eventTime} />
+								<button className="submit"><i className="icon-plus"></i></button>
+							</div>
+						</form>
+					</div>
+				)
 			} else {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
@@ -199,7 +248,6 @@ export default class Day extends Component {
 				)
 				gap = 0;
 			}
-
 		}
 
 		return (
