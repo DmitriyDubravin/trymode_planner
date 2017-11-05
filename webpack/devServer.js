@@ -20,7 +20,7 @@ if(dev) {
 module.exports = dev
 ? {
 	// contentBase: './dev/',
-	port: 9000,
+	// port: 9000,
 	historyApiFallback: true,
 	host: host,
 	open: true,

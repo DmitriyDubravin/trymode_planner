@@ -275,7 +275,26 @@ if($_POST['type'] === 'move_event') {
 }
 
 
+// EDIT EVENT
 
+if($_POST['type'] === 'edit_event') {
+
+	$token = clear($_POST['token']);
+	$start = clear($_POST['start']);
+	$dur = clear($_POST['dur']);
+	$idea = clear($_POST['idea']);
+	$id = clear($_POST['id']);
+
+	$nickname = userCheck($token);
+
+	if($nickname) {
+		mysqli_query($db,"UPDATE planner SET start = '$start', dur = '$dur', idea = '$idea' WHERE user = '$nickname' AND id = '$id'");
+		$arr = array('isEventEdited' => true);
+	} else {
+		$arr = array('error' => 'bad token');
+	}
+	echo json_encode($arr);
+}
 
 
 ?>

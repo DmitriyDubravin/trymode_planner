@@ -35,12 +35,12 @@ export default class Day extends Component {
 	}
 
 	componentDidMount() {
-		this.getAndSetDay();
+		// this.getAndSetDay();
 	}
 
 	componentDidUpdate(prevProps) {
 		if(prevProps.date.selected !== this.props.date.selected) {
-			this.getAndSetDay();
+			// this.getAndSetDay();
 		}
 	}
 
