@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent} from './../serverInteractions';
 import * as cf from './../functions';
 import Event from './Event';
+import EventEdit from './EventEdit';
 
 export default class Day extends Component {
 	constructor(props) {
@@ -35,12 +36,12 @@ export default class Day extends Component {
 	}
 
 	componentDidMount() {
-		// this.getAndSetDay();
+		this.getAndSetDay();
 	}
 
 	componentDidUpdate(prevProps) {
 		if(prevProps.date.selected !== this.props.date.selected) {
-			// this.getAndSetDay();
+			this.getAndSetDay();
 		}
 	}
 
@@ -204,29 +205,13 @@ export default class Day extends Component {
 					if(this.props.data.day[o].id) break;
 				}
 
-// STOPPED HERE! 
-
 				dayCells[i] = (
-					<div key={i} className="add-event-form">
-						<form onSubmit={this.submitAddingEvent}>
-							<textarea name="addingEventText" onChange={this.changeHandler} defaultValue={cell.idea}></textarea>
-							<div className="buttons">
-								<button className="button" onClick={this.cancelAddingEvent}><i className="icon-cross"></i></button>
-								<div className="time">
-									<div className="start">{cf.formatHoursMinutes(hours, minutes)}</div>
-									<div className="hyphen">-</div>
-									<div className="finish">
-										<select name="addingEventDur" onChange={this.changeHandler} defaultValue={cell.dur}>
-											{options}
-										</select>
-									</div>
-								</div>
-								<input type="hidden" name="time" value={time} ref={eventTime => this.eventTime = eventTime} />
-								<button className="submit"><i className="icon-plus"></i></button>
-							</div>
-						</form>
-					</div>
-				)
+					<EventEdit
+						key={i}
+						i={i}
+						event={cell}
+					/>
+				);
 			} else {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
