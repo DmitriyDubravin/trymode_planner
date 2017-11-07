@@ -119,6 +119,15 @@ export default class Day extends Component {
 
 
 
+	cancelEventEdit = () => {
+		this.setState({editingEventIndex: null});
+	}
+
+	submitEventEdit = (edits) => {
+		console.log(edits);
+	}
+
+
 	render() {
 		if(!this.props.data.day) return <div>loading...</div>;
 
@@ -189,29 +198,27 @@ export default class Day extends Component {
 						</form>
 					</div>
 				)
+
 			} else if(this.state.editingEventIndex === i && cell.id && this.state.editingEventId === cell.id) {
-				let options = [];
-				if(i === 143) {
-					options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
-				}
-				for(let o = i + 1; o < 144; o++) {
-					let startingMinutes = hours * 60 + minutes;
-					let endingMinutes = this.props.data.day[o].hours * 60 + this.props.data.day[o].minutes;
-					let dur = endingMinutes - startingMinutes;
-					options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(this.props.data.day[o].hours, this.props.data.day[o].minutes)}</option>);
-					if(o === 143) {
-						options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
-					}
-					if(this.props.data.day[o].id) break;
-				}
+
+// EDIT EVENT
 
 				dayCells[i] = (
 					<EventEdit
 						key={i}
 						i={i}
 						event={cell}
+						cancelEventEdit={this.cancelEventEdit}
+						submitEventEdit={this.submitEventEdit}
+						day={this.props.data.day}
 					/>
 				);
+				i += +cell.dur / 10 - 1;
+				let endMinutes = hours * 60 + minutes + +cell.dur;
+				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
+
+
+
 			} else {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
