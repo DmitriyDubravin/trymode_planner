@@ -21,23 +21,45 @@ export default class EventEdit extends Component {
 
 	render() {
 
-		const {i, hours, minutes, start, idea, dur} = this.props.event;
-		const {day} = this.props.day;
+		const {i, day} = this.props;
+		const {hours, minutes, start, idea, dur} = this.props.event;
+
+		let nextEvent = null;
+		let nextEventIndex = 144;
+		for(let index = i + 1; index < 144; index++) {
+			if(day[index].id) {
+				nextEvent = day[index];
+				nextEventIndex = index;
+				break;
+			}
+		}
+
+		console.log('\n\n');
+		console.log(start, nextEvent.start, (nextEvent.start - start) / 60 / 60);
+		console.log('\n\n');
 
 		let options = [];
-		if(i === 143) {
-			options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
+
+		for(let index = i; index < nextEventIndex; index++) {
+
+// stopped here
+
+			options.push(<option key={index} value={dur}>{cf.formatHoursMinutes(day[o].hours, day[o].minutes)}</option>);
 		}
-		for(let o = i + 1; o < 144; o++) {
-			let startingMinutes = hours * 60 + minutes;
-			let endingMinutes = day[o].hours * 60 + day[o].minutes;
-			let dur = endingMinutes - startingMinutes;
-			options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(day[o].hours, day[o].minutes)}</option>);
-			if(o === 143) {
-				options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
-			}
-			if(day[o].id) break;
-		}
+
+		// if(i === 143) {
+		// 	options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
+		// }
+		// for(let o = i + 1; o < 144; o++) {
+		// 	let startingMinutes = hours * 60 + minutes;
+		// 	let endingMinutes = day[o].hours * 60 + day[o].minutes;
+		// 	let dur = endingMinutes - startingMinutes;
+		// 	options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(day[o].hours, day[o].minutes)}</option>);
+		// 	if(o === 143) {
+		// 		options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
+		// 	}
+		// 	if(day[o].id) break;
+		// }
 
 		return (
 			<div className="edit-event-form">

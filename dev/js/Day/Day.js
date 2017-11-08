@@ -120,12 +120,13 @@ export default class Day extends Component {
 
 
 	cancelEventEdit = () => {
-		this.setState({editingEventIndex: null});
+		this.setState({editingEventIndex: null, editingEventId: null});
 	}
 
 	submitEventEdit = (edits) => {
 		console.log(edits);
 	}
+
 
 
 	render() {
@@ -208,9 +209,9 @@ export default class Day extends Component {
 						key={i}
 						i={i}
 						event={cell}
+						day={this.props.data.day}
 						cancelEventEdit={this.cancelEventEdit}
 						submitEventEdit={this.submitEventEdit}
-						day={this.props.data.day}
 					/>
 				);
 				i += +cell.dur / 10 - 1;
