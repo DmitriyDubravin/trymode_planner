@@ -89,12 +89,13 @@ if($_POST['type'] === 'get_day') {
 		if($row) {
 			$data = array();
 			do {
+				$idea = htmlspecialchars_decode($row['idea']);
 				$data[] = array(
 					"id" => $row['id'],
 					"start" => $row['start'],
 					"dur" => $row['dur'],
 					"status" => $row['status'],
-					"idea" => $row['idea']
+					"idea" => $idea
 				);
 			}
 			while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC));
@@ -280,15 +281,14 @@ if($_POST['type'] === 'move_event') {
 if($_POST['type'] === 'edit_event') {
 
 	$token = clear($_POST['token']);
-	$start = clear($_POST['start']);
+	$id = clear($_POST['id']);
 	$dur = clear($_POST['dur']);
 	$idea = clear($_POST['idea']);
-	$id = clear($_POST['id']);
 
 	$nickname = userCheck($token);
 
 	if($nickname) {
-		mysqli_query($db,"UPDATE planner SET start = '$start', dur = '$dur', idea = '$idea' WHERE user = '$nickname' AND id = '$id'");
+		mysqli_query($db,"UPDATE planner SET dur = '$dur', idea = '$idea' WHERE user = '$nickname' AND id = '$id'");
 		$arr = array('isEventEdited' => true);
 	} else {
 		$arr = array('error' => 'bad token');

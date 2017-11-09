@@ -174,3 +174,22 @@ export const moveEvent = (token, id, newTime, callback) => {
 	});
 }
 
+export const editEvent = (token, data, callback) => {
+	$.ajax({
+		url: serverUrl,
+		data: {
+			type: 'edit_event',
+			token: token,
+			id: data.id,
+			dur: data.dur,
+			idea: data.idea
+		},
+		type: 'POST',
+		success: function(response) {
+			let res = $.parseJSON(response);
+			if(res.isEventEdited) {
+				callback();
+			}
+		}
+	});
+}

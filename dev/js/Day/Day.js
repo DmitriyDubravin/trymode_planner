@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent} from './../serverInteractions';
+import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent, editEvent} from './../serverInteractions';
 import * as cf from './../functions';
 import Event from './Event';
 import EventEdit from './EventEdit';
@@ -112,19 +112,27 @@ export default class Day extends Component {
 		this.props.movingEventOn();
 	}
 
+	// EDIT
 
 	editEvent = (i, id) => {
 		this.setState({editingEventId: id, editingEventIndex: i});
 	}
-
-
 
 	cancelEventEdit = () => {
 		this.setState({editingEventIndex: null, editingEventId: null});
 	}
 
 	submitEventEdit = (edits) => {
-		console.log(edits);
+		editEvent(
+			this.props.user.token,
+			{
+				id: this.state.editingEventId,
+				dur: edits.dur,
+				idea: edits.idea
+			},
+			this.getAndSetDay.bind(this)
+		);
+		this.cancelEventEdit();
 	}
 
 
