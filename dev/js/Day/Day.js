@@ -226,8 +226,6 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
-
-
 			} else {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
