@@ -49,6 +49,10 @@ export const layout = (state = initialLayout, action) => {
 			return {...state, calendar: !state.calendar};
 		case 'DAY_TOGGLE':
 			return {...state, day: !state.day};
+		case 'DAY_ON':
+			return {...state, day: true};
+		case 'DAY_OFF':
+			return {...state, day: false};
 		case 'MOVING_EVENT_ON':
 			return {...state, movingEvent: true};
 		case 'MOVING_EVENT_OFF':

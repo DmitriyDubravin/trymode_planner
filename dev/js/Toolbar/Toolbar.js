@@ -10,6 +10,7 @@ export default class Toolbar extends Component {
 		// this.props.setShowingTime(cf.getUTCTimestamp());
 		this.props.setShowingTime(cf.getLocalTimestamp(date.getFullYear(), date.getMonth(), date.getDate()));
 		this.props.calendarOff();
+		this.props.dayOn();
 	}
 	selectPrevDay = () => {
 		this.props.setSelectedTime(this.props.date.selected - 86400000);

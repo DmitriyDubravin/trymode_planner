@@ -27,6 +27,12 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		dayToggle() {
 			dispatch(Actions.dayToggleAction())
+		},
+		dayOn() {
+			dispatch(Actions.dayOnAction())
+		},
+		dayOff() {
+			dispatch(Actions.dayOffAction())
 		}
 	}
 }

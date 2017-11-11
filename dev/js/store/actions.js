@@ -40,6 +40,12 @@ export function loginToggleAction() {
 export function dayToggleAction() {
 	return {type: 'DAY_TOGGLE'}
 }
+export function dayOnAction() {
+	return {type: 'DAY_ON'}
+}
+export function dayOffAction() {
+	return {type: 'DAY_OFF'}
+}
 export function movingEventOnAction() {
 	return {type: 'MOVING_EVENT_ON'}
 }

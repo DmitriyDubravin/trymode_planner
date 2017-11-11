@@ -3,6 +3,7 @@ import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent, editEv
 import * as cf from './../functions';
 import Event from './Event';
 import EventEdit from './EventEdit';
+import EventAdd from './EventAdd';
 
 export default class Day extends Component {
 	constructor(props) {
@@ -62,22 +63,21 @@ export default class Day extends Component {
 		this.props.movingEventOff();
 	}
 
-	cancelAddingEvent = () => {
+	cancelEventAdd = () => {
 		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
 	}
-	submitAddingEvent = e => {
-		e.preventDefault();
-		if(this.state.addingEventText) {
-			addEvent(
-				this.props.user.token,
-				{
-					start: this.eventTime.defaultValue / 1000,
-					dur: this.state.addingEventDur,
-					idea: this.state.addingEventText
-				},
-				this.getAndSetDay.bind(this)
-			);
-		}
+	submitEventAdd = edits => {
+		console.log(edits);
+		addEvent(
+			this.props.user.token,
+			{
+				start: edits.start,
+				dur: edits.dur,
+				idea: edits.idea
+			},
+			this.getAndSetDay.bind(this)
+		);
+		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
 	}
 	changeHandler = e => {
 		let name = e.target.name;
@@ -162,55 +162,32 @@ export default class Day extends Component {
 						editEvent={this.editEvent}
 					/>
 				);
-				i += +cell.dur / 10 - 1;
 
+				i += +cell.dur / 10 - 1;
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 				
 			} else if(this.state.addingEventId === i) {
+
+// EVENT ADD
+
+				dayCells[i] = (
+					<EventAdd
+						key={i}
+						i={i}
+						event={cell}
+						day={this.props.data.day}
+						cancelEventAdd={this.cancelEventAdd}
+						submitEventAdd={this.submitEventAdd}
+					/>
+				);
+
 				let endMinutes = hours * 60 + minutes + 10;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
-				let options = [];
-				if(i === 143) {
-					options.push(<option key={i} value={10}>{cf.formatHoursMinutes(0, 0)}</option>);
-				}
-				for(let o = i + 1; o < 144; o++) {
-					let startingMinutes = hours * 60 + minutes;
-					let endingMinutes = this.props.data.day[o].hours * 60 + this.props.data.day[o].minutes;
-					let dur = endingMinutes - startingMinutes;
-					options.push(<option key={o} value={dur}>{cf.formatHoursMinutes(this.props.data.day[o].hours, this.props.data.day[o].minutes)}</option>);
-					if(o === 143) {
-						options.push(<option key={o+1} value={dur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
-					}
-					if(this.props.data.day[o].id) break;
-				}
-
-				dayCells[i] = (
-					<div key={i} className="add-event-form">
-						<form onSubmit={this.submitAddingEvent}>
-							<textarea name="addingEventText" onChange={this.changeHandler}></textarea>
-							<div className="buttons">
-								<button className="button" onClick={this.cancelAddingEvent}><i className="icon-cross"></i></button>
-								<div className="time">
-									<div className="start">{cf.formatHoursMinutes(hours, minutes)}</div>
-									<div className="hyphen">-</div>
-									<div className="finish">
-										<select name="addingEventDur" onChange={this.changeHandler}>
-											{options}
-										</select>
-									</div>
-								</div>
-								<input type="hidden" name="time" value={time} ref={eventTime => this.eventTime = eventTime} />
-								<button className="submit"><i className="icon-plus"></i></button>
-							</div>
-						</form>
-					</div>
-				)
-
 			} else if(this.state.editingEventIndex === i && cell.id && this.state.editingEventId === cell.id) {
 
-// EDIT EVENT
+// EVENT EDIT
 
 				dayCells[i] = (
 					<EventEdit
