@@ -9,13 +9,24 @@ export default class Day extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			addingEventId: null,
+			editingEventIndex: null,
+
+			addingEventIndex: null,
 			addingEventDur: 10,
-			addingEventText: null,
-			editingEventId: null,
-			editingEventIndex: null
+			addingEventText: null
 		}
 	}
+
+	componentDidMount() {
+		this.getAndSetDay();
+	}
+	componentDidUpdate(prevProps) {
+		if(prevProps.date.selected !== this.props.date.selected) {
+			this.getAndSetDay();
+		}
+	}
+
+
 
 	getAndSetDay() {
 		const handleDayData = (data) => {
@@ -36,21 +47,9 @@ export default class Day extends Component {
 		);
 	}
 
-	componentDidMount() {
-		this.getAndSetDay();
-	}
 
-	componentDidUpdate(prevProps) {
-		if(prevProps.date.selected !== this.props.date.selected) {
-			this.getAndSetDay();
-		}
-	}
 
-	startAddingEvent = key => {
-		if(!this.state.movingEventId) {
-			this.setState({addingEventId: key});
-		}
-	}
+
 
 	moveHere = (newTime) => {
 		moveEvent(
@@ -63,29 +62,15 @@ export default class Day extends Component {
 		this.props.movingEventOff();
 	}
 
-	cancelEventAdd = () => {
-		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
-	}
-	submitEventAdd = edits => {
-		console.log(edits);
-		addEvent(
-			this.props.user.token,
-			{
-				start: edits.start,
-				dur: edits.dur,
-				idea: edits.idea
-			},
-			this.getAndSetDay.bind(this)
-		);
-		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
-	}
+
+
 	changeHandler = e => {
 		let name = e.target.name;
 		let value = e.target.value;
 		this.setState({[name]: value});
 	}
 	removeEvent = id => {
-		this.setState({addingEventId: null, addingEventDur: 10, addingEventText: null});
+		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
 		deleteEvent(
 			this.props.user.token,
 			id,
@@ -112,21 +97,44 @@ export default class Day extends Component {
 		this.props.movingEventOn();
 	}
 
-	// EDIT
 
-	editEvent = (i, id) => {
-		this.setState({editingEventId: id, editingEventIndex: i});
+
+// ADD
+	startEventAdd = i => {
+		if(!this.state.movingEventId) {
+			this.setState({addingEventIndex: i});
+		}
+	}
+	cancelEventAdd = () => {
+		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
+	}
+	submitEventAdd = adds => {
+		addEvent(
+			this.props.user.token,
+			{
+				start: adds.start,
+				dur: adds.dur,
+				idea: adds.idea
+			},
+			this.getAndSetDay.bind(this)
+		);
+		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
 	}
 
+
+
+// EDIT
+	startEventEdit = i => {
+		this.setState({editingEventIndex: i});
+	}
 	cancelEventEdit = () => {
-		this.setState({editingEventIndex: null, editingEventId: null});
+		this.setState({editingEventIndex: null});
 	}
-
-	submitEventEdit = (edits) => {
+	submitEventEdit = edits => {
 		editEvent(
 			this.props.user.token,
 			{
-				id: this.state.editingEventId,
+				id: edits.id,
 				dur: edits.dur,
 				idea: edits.idea
 			},
@@ -138,6 +146,7 @@ export default class Day extends Component {
 
 
 	render() {
+		
 		if(!this.props.data.day) return <div>loading...</div>;
 
 		let dayCells = [];
@@ -147,9 +156,11 @@ export default class Day extends Component {
 			let {hours, minutes, time} = this.props.data.day[i];
 			let cell = this.props.data.day[i];
 
-
-
-			if(cell.id && cell.id !== this.state.movingEventId && cell.id !== this.state.editingEventId) {
+			if(
+				cell.id && cell.id !== this.state.movingEventId &&
+				this.state.editingEventIndex === null
+			) {
+				// console.log('event');
 				dayCells[i] = (
 					<Event
 						key={i}
@@ -159,7 +170,7 @@ export default class Day extends Component {
 						setEventStatusDone={this.setEventStatusDone}
 						setEventStatusUndone={this.setEventStatusUndone}
 						moveEvent={this.moveEvent}
-						editEvent={this.editEvent}
+						startEventEdit={this.startEventEdit}
 					/>
 				);
 
@@ -167,8 +178,11 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 				
-			} else if(this.state.addingEventId === i) {
-
+			} else if(
+				this.state.addingEventIndex === i &&
+				this.state.editingEventIndex === null
+			) {
+				// console.log('eventAdd');
 // EVENT ADD
 
 				dayCells[i] = (
@@ -185,7 +199,8 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + 10;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
-			} else if(this.state.editingEventIndex === i && cell.id && this.state.editingEventId === cell.id) {
+			} else if(this.state.editingEventIndex === i) {
+				// console.log('eventEdit');
 
 // EVENT EDIT
 
@@ -204,6 +219,7 @@ export default class Day extends Component {
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
 			} else {
+				// console.log('cell');
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
 					<div
@@ -214,7 +230,7 @@ export default class Day extends Component {
 								if(this.props.data.movingEvent) {
 									this.moveHere(time);
 								} else {
-									this.startAddingEvent(i);
+									this.startEventAdd(i);
 								}
 							}
 						}
@@ -225,6 +241,8 @@ export default class Day extends Component {
 				gap = 0;
 			}
 		}
+
+		// console.log('---');
 
 		return (
 			<div className='day'>

@@ -55,7 +55,7 @@ export default class Event extends Component {
 								}
 							}><i className="icon-shuffle"></i></button>
 							<button onClick={() => {this.props.setEventStatusDone(id)}}><i className="icon-checkmark"></i></button>
-							<button onClick={() => {this.props.editEvent(this.props.i, id)}}><i className="icon-pencil"></i></button>
+							<button onClick={() => {this.props.startEventEdit(this.props.i)}}><i className="icon-pencil"></i></button>
 							<button onClick={() => {this.setState({tools: false})}}><i className="icon-arrow-right2"></i></button>
 						</div>}
 					</div>

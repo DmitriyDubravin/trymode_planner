@@ -5,6 +5,7 @@ export default class EventEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			eventEditId: this.props.event.id,
 			eventEditIdea: this.props.event.idea,
 			eventEditDur: this.props.event.dur
 		}
@@ -19,6 +20,7 @@ export default class EventEdit extends Component {
 	submitEventEdit = e => {
 		e.preventDefault();
 		this.props.submitEventEdit({
+			id: this.state.eventEditId,
 			idea: this.state.eventEditIdea,
 			dur: this.state.eventEditDur
 		});
