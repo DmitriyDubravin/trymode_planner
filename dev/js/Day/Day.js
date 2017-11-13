@@ -11,9 +11,7 @@ export default class Day extends Component {
 		this.state = {
 			editingEventIndex: null,
 
-			addingEventIndex: null,
-			addingEventDur: 10,
-			addingEventText: null
+			addingEventIndex: null
 		}
 	}
 
@@ -49,8 +47,6 @@ export default class Day extends Component {
 
 
 
-
-
 	moveHere = (newTime) => {
 		moveEvent(
 			this.props.user.token,
@@ -70,7 +66,7 @@ export default class Day extends Component {
 		this.setState({[name]: value});
 	}
 	removeEvent = id => {
-		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
+		this.setState({addingEventIndex: null});
 		deleteEvent(
 			this.props.user.token,
 			id,
@@ -106,7 +102,7 @@ export default class Day extends Component {
 		}
 	}
 	cancelEventAdd = () => {
-		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
+		this.setState({addingEventIndex: null});
 	}
 	submitEventAdd = adds => {
 		addEvent(
@@ -118,7 +114,7 @@ export default class Day extends Component {
 			},
 			this.getAndSetDay.bind(this)
 		);
-		this.setState({addingEventIndex: null, addingEventDur: 10, addingEventText: null});
+		this.cancelEventAdd();
 	}
 
 
@@ -160,7 +156,7 @@ export default class Day extends Component {
 				cell.id && cell.id !== this.state.movingEventId &&
 				this.state.editingEventIndex === null
 			) {
-				// console.log('event');
+
 				dayCells[i] = (
 					<Event
 						key={i}
@@ -182,7 +178,7 @@ export default class Day extends Component {
 				this.state.addingEventIndex === i &&
 				this.state.editingEventIndex === null
 			) {
-				// console.log('eventAdd');
+
 // EVENT ADD
 
 				dayCells[i] = (
@@ -200,7 +196,6 @@ export default class Day extends Component {
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
 			} else if(this.state.editingEventIndex === i) {
-				// console.log('eventEdit');
 
 // EVENT EDIT
 
@@ -219,7 +214,7 @@ export default class Day extends Component {
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
 			} else {
-				// console.log('cell');
+
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
 					<div
@@ -242,7 +237,7 @@ export default class Day extends Component {
 			}
 		}
 
-		// console.log('---');
+
 
 		return (
 			<div className='day'>
