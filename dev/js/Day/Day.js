@@ -105,16 +105,20 @@ export default class Day extends Component {
 		this.setState({addingEventIndex: null});
 	}
 	submitEventAdd = adds => {
-		addEvent(
-			this.props.user.token,
-			{
-				start: adds.start,
-				dur: adds.dur,
-				idea: adds.idea
-			},
-			this.getAndSetDay.bind(this)
-		);
-		this.cancelEventAdd();
+		if(adds.start > 0 && adds.dur > 0 && adds.idea.length > 0) {
+			addEvent(
+				this.props.user.token,
+				{
+					start: adds.start,
+					dur: adds.dur,
+					idea: adds.idea
+				},
+				this.getAndSetDay.bind(this)
+			);
+			this.cancelEventAdd();
+		} else {
+			throw new Error(`\n\nWrong adds:\n start: ${adds.start}\n dur:   ${adds.dur}\n idea:  ${adds.idea}\n`);
+		}
 	}
 
 

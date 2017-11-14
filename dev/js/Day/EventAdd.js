@@ -4,6 +4,9 @@ import * as cf from './../functions';
 export default class EventAdd extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			eventAddDur: 10
+		}
 	}
 
 	changeHandler = e => {
@@ -16,8 +19,8 @@ export default class EventAdd extends Component {
 		e.preventDefault();
 		this.props.submitEventAdd({
 			start: this.props.event.time / 1000,
-			idea: this.state.eventAddIdea,
-			dur: this.state.eventAddDur
+			dur: this.state.eventAddDur,
+			idea: this.state.eventAddIdea
 		});
 	}
 
