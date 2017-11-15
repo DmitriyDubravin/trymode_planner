@@ -47,7 +47,7 @@ export default class Day extends Component {
 
 
 
-	moveHere = (newTime) => {
+	finishEventMove = newTime => {
 		moveEvent(
 			this.props.user.token,
 			this.props.data.movingEvent.event.id,
@@ -58,37 +58,7 @@ export default class Day extends Component {
 		this.props.movingEventOff();
 	}
 
-
-
-	changeHandler = e => {
-		let name = e.target.name;
-		let value = e.target.value;
-		this.setState({[name]: value});
-	}
-	removeEvent = id => {
-		this.setState({addingEventIndex: null});
-		deleteEvent(
-			this.props.user.token,
-			id,
-			this.getAndSetDay.bind(this)
-		);
-	}
-	setEventStatusDone = id => {
-		eventDone(
-			this.props.user.token,
-			id,
-			this.getAndSetDay.bind(this)
-		);
-	}
-	setEventStatusUndone = id => {
-		eventUndone(
-			this.props.user.token,
-			id,
-			this.getAndSetDay.bind(this)
-		);
-	}
-
-	moveEvent = (key, event) => {
+	startEventMove = (key, event) => {
 		this.props.setMovingEvent({key: key, event: event});
 		this.props.movingEventOn();
 	}
@@ -121,8 +91,6 @@ export default class Day extends Component {
 		}
 	}
 
-
-
 // EDIT
 	startEventEdit = i => {
 		this.setState({editingEventIndex: i});
@@ -131,16 +99,54 @@ export default class Day extends Component {
 		this.setState({editingEventIndex: null});
 	}
 	submitEventEdit = edits => {
-		editEvent(
+		if(edits.id.length > 0 && edits.dur > 0 && edits.idea.length > 0) {
+			editEvent(
+				this.props.user.token,
+				{
+					id: edits.id,
+					dur: edits.dur,
+					idea: edits.idea
+				},
+				this.getAndSetDay.bind(this)
+			);
+			this.cancelEventEdit();
+		} else {
+			throw new Error(`\n\nWrong edits:\n id:   ${edits.id}\n dur:  ${edits.dur}\n idea: ${edits.idea}\n`);
+		}
+	}
+
+// REMOVE
+	removeEvent = id => {
+		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
+
+		deleteEvent(
 			this.props.user.token,
-			{
-				id: edits.id,
-				dur: edits.dur,
-				idea: edits.idea
-			},
+			id,
 			this.getAndSetDay.bind(this)
 		);
-		this.cancelEventEdit();
+		this.setState({addingEventIndex: null});
+	}
+
+// DONE
+	setEventStatusDone = id => {
+		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
+
+		eventDone(
+			this.props.user.token,
+			id,
+			this.getAndSetDay.bind(this)
+		);
+	}
+
+// UNDONE
+	setEventStatusUndone = id => {
+		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
+
+		eventUndone(
+			this.props.user.token,
+			id,
+			this.getAndSetDay.bind(this)
+		);
 	}
 
 
@@ -169,7 +175,7 @@ export default class Day extends Component {
 						removeEvent={this.removeEvent}
 						setEventStatusDone={this.setEventStatusDone}
 						setEventStatusUndone={this.setEventStatusUndone}
-						moveEvent={this.moveEvent}
+						moveEvent={this.startEventMove}
 						startEventEdit={this.startEventEdit}
 					/>
 				);
@@ -227,7 +233,7 @@ export default class Day extends Component {
 						onClick={
 							() => {
 								if(this.props.data.movingEvent) {
-									this.moveHere(time);
+									this.finishEventMove(time);
 								} else {
 									this.startEventAdd(i);
 								}
