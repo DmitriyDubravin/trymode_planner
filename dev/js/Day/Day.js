@@ -47,7 +47,7 @@ export default class Day extends Component {
 
 
 
-	finishEventMove = newTime => {
+	submitEventMove = newTime => {
 		moveEvent(
 			this.props.user.token,
 			this.props.data.movingEvent.event.id,
@@ -233,7 +233,7 @@ export default class Day extends Component {
 						onClick={
 							() => {
 								if(this.props.data.movingEvent) {
-									this.finishEventMove(time);
+									this.submitEventMove(time);
 								} else {
 									this.startEventAdd(i);
 								}
