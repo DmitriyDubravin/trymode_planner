@@ -3,7 +3,7 @@ import * as cf from './../functions';
 
 
 
-export default class EventAdd extends Component {
+export default class EventMove extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

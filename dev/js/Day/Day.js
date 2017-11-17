@@ -10,7 +10,7 @@ export default class Day extends Component {
 		super(props);
 		this.state = {
 			editingEventIndex: null,
-
+			movingEventIndex: null,
 			addingEventIndex: null
 		}
 	}
@@ -61,6 +61,7 @@ export default class Day extends Component {
 	startEventMove = (key, event) => {
 		this.props.setMovingEvent({key: key, event: event});
 		this.props.movingEventOn();
+		this.setState({movingEventIndex: key});
 	}
 
 
@@ -164,7 +165,8 @@ export default class Day extends Component {
 
 			if(
 				cell.id && cell.id !== this.state.movingEventId &&
-				this.state.editingEventIndex === null
+				this.state.editingEventIndex === null &&
+				this.state.movingEventIndex === null
 			) {
 
 				dayCells[i] = (
@@ -179,6 +181,17 @@ export default class Day extends Component {
 						startEventEdit={this.startEventEdit}
 					/>
 				);
+
+				i += +cell.dur / 10 - 1;
+				let endMinutes = hours * 60 + minutes + +cell.dur;
+				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
+
+			} else if(
+				this.state.movingEventIndex === i &&
+				this.state.editingEventIndex === null
+			) {
+
+				dayCells[i] = (<div key={i}>Edit</div>);
 
 				i += +cell.dur / 10 - 1;
 				let endMinutes = hours * 60 + minutes + +cell.dur;
