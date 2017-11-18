@@ -8,6 +8,7 @@ import {date, user, layout, data} from './store/reducers';
 import logger from 'redux-logger';
 
 import PlannerContainer from './plannerContainer';
+import { addEvent } from './serverInteractions';
 
 
 const reducers = combineReducers({
@@ -33,12 +34,7 @@ if(dev) {
 	}
 }
 
-/*
-check time
-save time (min)
-every min check for time
-save time every min
-*/
+
 
 render(
 	<Provider store={store}>

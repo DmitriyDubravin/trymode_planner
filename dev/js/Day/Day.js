@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
 import {getDay, addEvent, deleteEvent, eventDone, eventUndone, moveEvent, editEvent} from './../serverInteractions';
 import * as cf from './../functions';
-import Event from './Event';
-import EventEdit from './EventEdit';
-import EventAdd from './EventAdd';
+import Event from './../Event/Event';
+import EventEdit from './../Event/EventEdit';
+import EventAdd from './../Event/EventAdd';
+import EventMove from './../Event/EventMove';
 
 export default class Day extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			addingEventIndex: null,
 			editingEventIndex: null,
 			movingEventIndex: null,
-			addingEventIndex: null
+			movingEvent: null,
+			loading: false
 		}
 	}
 
@@ -27,6 +30,7 @@ export default class Day extends Component {
 
 
 	getAndSetDay() {
+		this.setState({loading: true});
 		const handleDayData = (data) => {
 			let day = cf.buildInitialDayCells(this.props.date.selected);
 			if(data.response !== 'no events was found') {
@@ -37,6 +41,7 @@ export default class Day extends Component {
 				}
 			}
 			this.props.setDay(day);
+			this.setState({loading: false});
 		}
 		getDay(
 			Math.floor(this.props.date.selected / 1000),
@@ -47,30 +52,9 @@ export default class Day extends Component {
 
 
 
-	submitEventMove = newTime => {
-		moveEvent(
-			this.props.user.token,
-			this.props.data.movingEvent.event.id,
-			newTime / 1000,
-			this.getAndSetDay.bind(this)
-		);
-		this.props.setMovingEvent(null);
-		this.props.movingEventOff();
-	}
-
-	startEventMove = (key, event) => {
-		this.props.setMovingEvent({key: key, event: event});
-		this.props.movingEventOn();
-		this.setState({movingEventIndex: key});
-	}
-
-
-
 // ADD
 	startEventAdd = i => {
-		if(!this.state.movingEventId) {
-			this.setState({addingEventIndex: i});
-		}
+		this.setState({addingEventIndex: i});
 	}
 	cancelEventAdd = () => {
 		this.setState({addingEventIndex: null});
@@ -91,6 +75,8 @@ export default class Day extends Component {
 			throw new Error(`\n\nWrong adds:\n start: ${adds.start}\n dur:   ${adds.dur}\n idea:  ${adds.idea}\n`);
 		}
 	}
+
+
 
 // EDIT
 	startEventEdit = i => {
@@ -116,6 +102,27 @@ export default class Day extends Component {
 		}
 	}
 
+
+
+// MOVE
+	submitEventMove = newTime => {
+		moveEvent(
+			this.props.user.token,
+			this.state.movingEvent.id,
+			newTime / 1000,
+			this.getAndSetDay.bind(this)
+		);
+		this.setState({movingEventIndex: null, movingEvent: null});
+	}
+	cancelEventMove = () => {
+		this.setState({movingEventIndex: null, movingEvent: null});
+	}
+	startEventMove = (i, event) => {
+		this.setState({movingEventIndex: i, movingEvent: event});
+	}
+
+
+
 // REMOVE
 	removeEvent = id => {
 		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
@@ -128,6 +135,8 @@ export default class Day extends Component {
 		this.setState({addingEventIndex: null});
 	}
 
+
+
 // DONE
 	setEventStatusDone = id => {
 		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
@@ -138,6 +147,8 @@ export default class Day extends Component {
 			this.getAndSetDay.bind(this)
 		);
 	}
+
+
 
 // UNDONE
 	setEventStatusUndone = id => {
@@ -163,10 +174,13 @@ export default class Day extends Component {
 			let {hours, minutes, time} = this.props.data.day[i];
 			let cell = this.props.data.day[i];
 
+
+
+// EVENT
 			if(
-				cell.id && cell.id !== this.state.movingEventId &&
-				this.state.editingEventIndex === null &&
-				this.state.movingEventIndex === null
+				cell.id &&
+				this.state.editingEventIndex !== i &&
+				this.state.movingEventIndex !== i
 			) {
 
 				dayCells[i] = (
@@ -186,23 +200,12 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
-			} else if(
-				this.state.movingEventIndex === i &&
-				this.state.editingEventIndex === null
-			) {
 
-				dayCells[i] = (<div key={i}>Edit</div>);
-
-				i += +cell.dur / 10 - 1;
-				let endMinutes = hours * 60 + minutes + +cell.dur;
-				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
-				
-			} else if(
-				this.state.addingEventIndex === i &&
-				this.state.editingEventIndex === null
-			) {
 
 // EVENT ADD
+			} else if(
+				this.state.addingEventIndex === i
+			) {
 
 				dayCells[i] = (
 					<EventAdd
@@ -218,9 +221,12 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + 10;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
-			} else if(this.state.editingEventIndex === i) {
+
 
 // EVENT EDIT
+			} else if(
+				this.state.editingEventIndex === i
+			) {
 
 				dayCells[i] = (
 					<EventEdit
@@ -236,6 +242,29 @@ export default class Day extends Component {
 				let endMinutes = hours * 60 + minutes + +cell.dur;
 				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
 
+
+
+// EVENT MOVE
+			} else if(
+				this.state.movingEventIndex === i
+			) {
+
+				dayCells[i] = (
+					<EventMove
+						key={i}
+						i={i}
+						event={cell}
+						cancelEventMove={this.cancelEventMove}
+					/>
+				);
+
+				i += +cell.dur / 10 - 1;
+				let endMinutes = hours * 60 + minutes + +cell.dur;
+				gap = (endMinutes - (Math.floor(endMinutes / 60) * 60)) / 10;
+
+
+
+// EMPTY CELL
 			} else {
 
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
@@ -245,7 +274,7 @@ export default class Day extends Component {
 						className={cls}
 						onClick={
 							() => {
-								if(this.props.data.movingEvent) {
+								if(this.state.movingEventIndex) {
 									this.submitEventMove(time);
 								} else {
 									this.startEventAdd(i);
@@ -261,13 +290,16 @@ export default class Day extends Component {
 		}
 
 
-
-		return (
-			<div className='day'>
-				<div className="days-cells">
-					{dayCells}
+		if(this.state.loading) {
+			return <div>Loading</div>
+		} else {
+			return (
+				<div className='day'>
+					<div className="days-cells">
+						{dayCells}
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
 	}
 };

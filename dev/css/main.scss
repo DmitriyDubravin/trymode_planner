@@ -74,7 +74,8 @@
 
 body {
 	margin: 0;
-	padding: 20px;
+	padding: 20px 10px;
+	min-width: 320px;
 	font-family: $main-ff;
 	transition: opacity 0.25s;
 	&.preloader {
@@ -106,25 +107,24 @@ a {
 	border: 1px solid $brand-bg;
 	border-radius: 4px;
 	overflow: hidden;
-	max-width: 960px;
 	color: $brand-bg;
 	background: $white;
 	.date {
 		border-bottom: 1px solid $brand-bg2;
-		padding: 10px;
-		line-height: 20px;
-		font-size: 16px;
+		overflow: hidden;
+		line-height: 40px;
+		font-size: 14px;
 		font-weight: bold;
 		text-align: center;
 		color: $white;
 		background: $brand-bg;
 	}
 	.btn {
-		margin: 0 10px;
 		border: 0;
 		padding: 0;
-		width: 20px;
-		height: 20px;
+		width: 34px;
+		width: calc((100% - 162px) / 4);
+		height: 40px;
 		text-align: center;
 		color: $brand-fg;
 		background: none;
@@ -132,7 +132,7 @@ a {
 		outline: none;
 		i {
 			display: block;
-			line-height: 20px;
+			line-height: 40px;
 			font-size: 20px;
 			vertical-align: middle;
 		}
@@ -271,6 +271,10 @@ a {
 			border: 1px solid $brand-bg2;
 			color: $white;
 			background: $brand-bg;
+		}
+		&.move {
+			color: $white;
+			background: $brand-bg2;
 		}
 		.settings {
 			position: absolute;

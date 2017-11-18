@@ -53,10 +53,6 @@ export const layout = (state = initialLayout, action) => {
 			return {...state, day: true};
 		case 'DAY_OFF':
 			return {...state, day: false};
-		case 'MOVING_EVENT_ON':
-			return {...state, movingEvent: true};
-		case 'MOVING_EVENT_OFF':
-			return {...state, movingEvent: false};
 		case 'CALENDAR_OFF':
 			return {...state, calendar: false};
 		case 'PAGE_MAIN':
@@ -103,11 +99,6 @@ export const data = (state = initialData, action) => {
 						status: 'adding'
 					}
 				}
-			};
-		case 'SET_MOVING_EVENT':
-			return {
-				...state,
-				movingEvent: action.movingEvent
 			};
 		default:
 			return state

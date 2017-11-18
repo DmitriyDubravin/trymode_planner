@@ -51,7 +51,7 @@ export default class Event extends Component {
 							<button onClick={
 								() => {
 									this.setState({tools: false});
-									this.props.moveEvent(this.props.i, this.props.event)
+									this.props.moveEvent(this.props.i, this.props.event);
 								}
 							}><i className="icon-shuffle"></i></button>
 							<button onClick={() => {this.props.setEventStatusDone(id)}}><i className="icon-checkmark"></i></button>

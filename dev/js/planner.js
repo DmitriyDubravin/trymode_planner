@@ -6,7 +6,6 @@ import Toolbar from './Toolbar/ToolbarCommutator';
 import Calendar from './Calendar/CalendarCommutator';
 import Header from './Header/HeaderConnector';
 import Day from './Day/DayCommutator';
-import MovingEvent from './Day/MovingEventCommutator';
 
 import * as cf from './functions';
 
@@ -55,7 +54,6 @@ export default class Planner extends Component {
 				<Toolbar />
 				<Calendar />
 				<Day />
-				<MovingEvent />
 			</div>
 		)
 	}

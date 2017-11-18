@@ -18,15 +18,15 @@ const mapDispatchToProps = (dispatch) => {
 		// setEvent(key) {
 		// 	dispatch(Actions.addEventAction(key))
 		// },
-		setMovingEvent(movingEvent) {
-			dispatch(Actions.setMovingEventAction(movingEvent))
-		},
-		movingEventOn() {
-			dispatch(Actions.movingEventOnAction())
-		},
-		movingEventOff() {
-			dispatch(Actions.movingEventOffAction())
-		}
+		// setMovingEvent(movingEvent) {
+		// 	dispatch(Actions.setMovingEventAction(movingEvent))
+		// },
+		// movingEventOn() {
+		// 	dispatch(Actions.movingEventOnAction())
+		// },
+		// movingEventOff() {
+		// 	dispatch(Actions.movingEventOffAction())
+		// }
 	}
 }
 

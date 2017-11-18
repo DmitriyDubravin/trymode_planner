@@ -22,9 +22,6 @@ export function setDayAction(day) {
 export function setEventAction(event) {
 	return {type: 'SET_EVENT', event: event}
 }
-export function setMovingEventAction(movingEvent) {
-	return {type: 'SET_MOVING_EVENT', movingEvent: movingEvent}
-}
 
 
 
@@ -46,12 +43,7 @@ export function dayOnAction() {
 export function dayOffAction() {
 	return {type: 'DAY_OFF'}
 }
-export function movingEventOnAction() {
-	return {type: 'MOVING_EVENT_ON'}
-}
-export function movingEventOffAction() {
-	return {type: 'MOVING_EVENT_OFF'}
-}
+
 
 
 
