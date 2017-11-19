@@ -31,7 +31,7 @@ export default class Toolbar extends Component {
 		var xDiff = this.state.xDown - xUp;
 		var yDiff = this.state.yDown - yUp;
 	
-		if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+		if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
 			if ( xDiff > 0 ) {
 				console.log('left swipe');
 				this.selectNextDay();
