@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
 		setDay(day) {
 			dispatch(Actions.setDayAction(day))
 		},
+		addEvent(event) {
+			dispatch(Actions.addEventAction(event))
+		}
 		// setEvent(key) {
 		// 	dispatch(Actions.addEventAction(key))
 		// },

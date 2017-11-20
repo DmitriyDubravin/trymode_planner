@@ -31,7 +31,7 @@ export default class Day extends Component {
 
 	getAndSetDay() {
 		this.setState({loading: true});
-		const handleDayData = (data) => {
+		const responseHandler = data => {
 			let day = cf.buildInitialDayCells(this.props.date.selected);
 			if(data.response !== 'no events was found') {
 				for(let i = 0; i < data.data.length; i++) {
@@ -46,7 +46,7 @@ export default class Day extends Component {
 		getDay(
 			Math.floor(this.props.date.selected / 1000),
 			this.props.user.token,
-			handleDayData
+			responseHandler
 		);
 	}
 
@@ -61,6 +61,10 @@ export default class Day extends Component {
 	}
 	submitEventAdd = adds => {
 		if(adds.start > 0 && adds.dur > 0 && adds.idea.length > 0) {
+
+			// write event to store
+			this.props.addEvent(adds);
+
 			addEvent(
 				this.props.user.token,
 				{
@@ -70,6 +74,7 @@ export default class Day extends Component {
 				},
 				this.getAndSetDay.bind(this)
 			);
+
 			this.cancelEventAdd();
 		} else {
 			throw new Error(`\n\nWrong adds:\n start: ${adds.start}\n dur:   ${adds.dur}\n idea:  ${adds.idea}\n`);

@@ -16,9 +16,6 @@ export default class Event extends Component {
 			this.setState({tools: false, status: this.props.event.status})
 		}
 	}
-	setStatusDone(id) {
-		// setEventDone(id);
-	}
 	render() {
 		const {id, hours, minutes, dur, idea} = this.props.event;
 

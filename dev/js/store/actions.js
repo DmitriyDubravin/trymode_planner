@@ -19,8 +19,8 @@ export function setTokenAction(token) {
 export function setDayAction(day) {
 	return {type: 'SET_DAY', day: day}
 }
-export function setEventAction(event) {
-	return {type: 'SET_EVENT', event: event}
+export function addEventAction(event) {
+	return {type: 'ADD_EVENT', event: event}
 }
 
 

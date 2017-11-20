@@ -20,6 +20,7 @@ export default class EventAdd extends Component {
 	submitEventAdd = e => {
 		e.preventDefault();
 		this.props.submitEventAdd({
+			i: this.props.i,
 			start: this.props.event.time / 1000,
 			dur: this.state.eventAddDur,
 			idea: this.state.eventAddIdea
