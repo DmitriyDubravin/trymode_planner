@@ -44,7 +44,7 @@ export default class Event extends Component {
 					<div className="settings">
 						{!this.state.tools && <button onClick={() => {this.setState({tools: true})}}><i className="icon-cog"></i></button>}
 						{this.state.tools && <div className="tools">
-							<button onClick={() => {this.props.removeEvent(id)}}><i className="icon-bin"></i></button>
+							<button onClick={() => {this.props.removeEvent(id,this.props.i)}}><i className="icon-bin"></i></button>
 							<button onClick={
 								() => {
 									this.setState({tools: false});

@@ -129,8 +129,11 @@ export default class Day extends Component {
 
 
 // REMOVE
-	removeEvent = id => {
+	removeEvent = (id, i) => {
 		if(typeof id !== 'string' && id.length === 0) throw new Error(`\n\nWrong removing id:\n id: ${id}\n`);
+
+		// delete event from store
+		this.props.deleteEvent(i);
 
 		deleteEvent(
 			this.props.user.token,
@@ -184,6 +187,7 @@ export default class Day extends Component {
 // EVENT
 			if(
 				cell.id &&
+				cell.id !== '' &&
 				this.state.editingEventIndex !== i &&
 				this.state.movingEventIndex !== i
 			) {

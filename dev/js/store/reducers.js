@@ -97,10 +97,21 @@ export const data = (state = initialData, action) => {
 					[action.event.i]: {
 						...state.day[action.event.i],
 						dur: action.event.dur,
-						id: 'no id yet',
+						id: '',
 						idea: action.event.idea,
 						start: action.event.start,
 						status: ''
+					}
+				}
+			};
+		case 'DELETE_EVENT':
+			return {
+				...state,
+				day: {
+					...state.day,
+					[action.eventIndex]: {
+						...state.day[action.eventIndex],
+						id: ''
 					}
 				}
 			};

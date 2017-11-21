@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		addEvent(event) {
 			dispatch(Actions.addEventAction(event))
+		},
+		deleteEvent(index) {
+			dispatch(Actions.deleteEventAction(index))
 		}
 		// setEvent(key) {
 		// 	dispatch(Actions.addEventAction(key))

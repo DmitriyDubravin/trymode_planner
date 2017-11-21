@@ -22,7 +22,9 @@ export function setDayAction(day) {
 export function addEventAction(event) {
 	return {type: 'ADD_EVENT', event: event}
 }
-
+export function deleteEventAction(index) {
+	return {type: 'DELETE_EVENT', eventIndex: index}
+}
 
 
 export function calendarToggleAction() {
