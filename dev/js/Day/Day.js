@@ -31,6 +31,7 @@ export default class Day extends Component {
 
 	getAndSetDay() {
 		this.setState({loading: true});
+// setTimeout(() => {
 		const responseHandler = data => {
 			let day = cf.buildInitialDayCells(this.props.date.selected);
 			if(data.response !== 'no events was found') {
@@ -48,6 +49,7 @@ export default class Day extends Component {
 			this.props.user.token,
 			responseHandler
 		);
+// },1000);
 	}
 
 
@@ -173,7 +175,8 @@ export default class Day extends Component {
 
 	render() {
 		
-		if(!this.props.data.day) return <div>loading...</div>;
+		// if(!this.props.data.day) return <div>loading...</div>;
+		if(!this.props.data.day) return <div className="preloader-layer"><img src="../images/preloader.gif" /></div>
 
 		let dayCells = [];
 		let gap = 0;
@@ -299,16 +302,15 @@ export default class Day extends Component {
 		}
 
 
-		if(this.state.loading) {
-			return <div>Loading</div>
-		} else {
-			return (
-				<div className='day'>
-					<div className="days-cells">
-						{dayCells}
-					</div>
+
+		return (
+			<div className={`day${this.state.loading ? ' loading' : ''}`}>
+				<div className="days-cells">
+					{dayCells}
+					<div className="preloader-layer"><img src="../images/preloader.gif" /></div>
 				</div>
-			);
-		}
+			</div>
+		);
+
 	}
 };
