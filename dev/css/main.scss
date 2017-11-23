@@ -284,22 +284,22 @@ a {
 	}
 	.event {
 		position: relative;
-		border: 1px solid $brand-bg;
+		border: 1px solid $brand-bg2;
 		width: 100%;
 		padding: 0 10px;
 		line-height: 32px;
 		font-size: 14px;
 		// text-align: center;
-		color: $brand-bg;
-		background: $white;
+		color: $white;
+		background: $brand-bg;
 		.time {
 			line-height: 14px;
 			font-size: 10px;
 		}
 		&.done {
-			border: 1px solid $brand-bg2;
-			color: $white;
-			background: $brand-bg;
+			border: 1px solid $brand-bg;
+			color: $brand-bg;
+			background: $white;
 		}
 		&.move {
 			color: $white;

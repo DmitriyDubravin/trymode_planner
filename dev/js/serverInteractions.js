@@ -155,14 +155,15 @@ export const eventUndone = (token, id, callback) => {
 	});
 }
 
-export const moveEvent = (token, id, newTime, callback) => {
+export const moveEvent = (token, id, newTime, dur, callback) => {
 	$.ajax({
 		url: serverUrl,
 		data: {
 			type: 'move_event',
 			token: token,
 			id: id,
-			time: newTime
+			time: newTime,
+			dur: dur
 		},
 		type: 'POST',
 		success: function(response) {

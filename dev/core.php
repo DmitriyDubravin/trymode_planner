@@ -262,7 +262,7 @@ if($_POST['type'] === 'move_event') {
 	$token = clear($_POST['token']);
 	$id = clear($_POST['id']);
 	$time = clear($_POST['time']);
-	$dur = 10;
+	$dur = clear($_POST['dur']);
 
 	$nickname = userCheck($token);
 

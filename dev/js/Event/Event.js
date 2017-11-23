@@ -39,7 +39,7 @@ export default class Event extends Component {
 
 
 			return (
-				<div className="event">
+				<div className="event" draggable="true">
 					<span className="time">{startTime} - {endTime}</span> | {idea}
 					<div className="settings">
 						{!this.state.tools && <button onClick={() => {this.setState({tools: true})}}><i className="icon-cog"></i></button>}

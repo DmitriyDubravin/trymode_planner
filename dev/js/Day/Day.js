@@ -112,20 +112,30 @@ export default class Day extends Component {
 
 
 // MOVE
-	submitEventMove = newTime => {
-		moveEvent(
-			this.props.user.token,
-			this.state.movingEvent.id,
-			newTime / 1000,
-			this.getAndSetDay.bind(this)
-		);
-		this.setState({movingEventIndex: null, movingEvent: null});
+	startEventMove = (i, event) => {
+		this.setState({movingEventIndex: i, movingEvent: event});
 	}
 	cancelEventMove = () => {
 		this.setState({movingEventIndex: null, movingEvent: null});
 	}
-	startEventMove = (i, event) => {
-		this.setState({movingEventIndex: i, movingEvent: event});
+	submitEventMove = (newTime, i) => {
+		let freeSpaceMins = 0;
+		for(let x = i; x < 144; x++) {
+			if(!this.props.data.day[x].start) {
+				freeSpaceMins += 10;
+			} else {
+				break;
+			}
+		}
+		let isOverlap = this.state.movingEvent.dur > freeSpaceMins;
+		moveEvent(
+			this.props.user.token,
+			this.state.movingEvent.id,
+			newTime / 1000,
+			isOverlap ? 10 : this.state.movingEvent.dur,
+			this.getAndSetDay.bind(this)
+		);
+		this.setState({movingEventIndex: null, movingEvent: null});
 	}
 
 
@@ -287,7 +297,7 @@ export default class Day extends Component {
 						onClick={
 							() => {
 								if(this.state.movingEventIndex) {
-									this.submitEventMove(time);
+									this.submitEventMove(time, i);
 								} else {
 									this.startEventAdd(i);
 								}

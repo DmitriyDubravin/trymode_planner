@@ -21,6 +21,8 @@ export default class Toolbar extends Component {
 	handleTouchStart = (evt) => {
 		this.state.xDownStart = evt.touches[0].clientX;
 		this.state.yDownStart = evt.touches[0].clientY;
+		this.state.xDown = evt.touches[0].clientX;
+		this.state.yDown = evt.touches[0].clientY;
 	};
 	
 	handleTouchMove = (evt) => {
@@ -32,6 +34,7 @@ export default class Toolbar extends Component {
 	};
 
 	handleTouchEnd = (evt) => {
+		if(this.state.xDownStart === this.state.xDown && this.state.yDownStart === this.state.yDown) return;
 
 		var sensibility = 100;
 
