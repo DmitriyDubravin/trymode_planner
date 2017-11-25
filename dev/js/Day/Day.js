@@ -113,6 +113,7 @@ export default class Day extends Component {
 
 // MOVE
 	startEventMove = (i, event) => {
+		console.log(333, i, event);
 		this.setState({movingEventIndex: i, movingEvent: event});
 	}
 	cancelEventMove = () => {
@@ -179,6 +180,18 @@ export default class Day extends Component {
 			id,
 			this.getAndSetDay.bind(this)
 		);
+	}
+
+
+
+// DRAG & DROP
+	dragoverHandler(e) {
+		e.preventDefault();
+		console.log('dragging over');
+		e.dataTransfer.dropEffect = 'move';
+	}
+	dropHandler(e) {
+		console.log(1, e.target.id);
 	}
 
 
@@ -292,17 +305,20 @@ export default class Day extends Component {
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
 				dayCells[i] = (
 					<div
+						id={i}
 						key={i}
 						className={cls}
 						onClick={
 							() => {
-								if(this.state.movingEventIndex) {
+								if(this.state.movingEventIndex !== null) {
 									this.submitEventMove(time, i);
 								} else {
 									this.startEventAdd(i);
 								}
 							}
 						}
+						onDragOver={e => this.dragoverHandler(e)}
+						onDrop={e => this.dropHandler(e)}
 					>
 						{cf.formatHoursMinutes(hours, minutes)}
 					</div>

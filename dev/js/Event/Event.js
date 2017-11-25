@@ -16,6 +16,18 @@ export default class Event extends Component {
 			this.setState({tools: false, status: this.props.event.status})
 		}
 	}
+
+
+
+	dragStartHandler(e) {
+		console.log('drag started', e);
+		// this.props.moveEvent(this.props.i, this.props.event);
+		// e.dataTransfer.dropEffect = 'copy';
+	}
+
+
+
+
 	render() {
 		const {id, hours, minutes, dur, idea} = this.props.event;
 
@@ -39,7 +51,7 @@ export default class Event extends Component {
 
 
 			return (
-				<div className="event" draggable="true">
+				<div className="event" draggable="true" onDragStart={e => this.dragStartHandler(e)}>
 					<span className="time">{startTime} - {endTime}</span> | {idea}
 					<div className="settings">
 						{!this.state.tools && <button onClick={() => {this.setState({tools: true})}}><i className="icon-cog"></i></button>}
