@@ -78,6 +78,14 @@ body {
 	min-width: 320px;
 	font-family: $main-ff;
 	transition: opacity 0.25s;
+
+
+
+	// TEMPORARY SOLUTION
+	background: #ddd;
+
+
+	
 	&.preloader {
 		opacity: 0;
 	}
@@ -433,7 +441,8 @@ a {
 		color: $brand-bg;
 		background: $brand-fg;
 		cursor: pointer;
-		&:hover {
+		&:hover,
+		&:focus {
 			color: $white;
 			background: $brand-bg2;
 		}

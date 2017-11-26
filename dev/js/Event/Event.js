@@ -20,9 +20,8 @@ export default class Event extends Component {
 
 
 	dragStartHandler(e) {
-		console.log('drag started', e);
-		// this.props.moveEvent(this.props.i, this.props.event);
-		// e.dataTransfer.dropEffect = 'copy';
+		// console.log('drag started', e, this.props.i);
+		e.dataTransfer.setData("text/plain", this.props.i);
 	}
 
 
@@ -60,7 +59,7 @@ export default class Event extends Component {
 							<button onClick={
 								() => {
 									this.setState({tools: false});
-									this.props.moveEvent(this.props.i, this.props.event);
+									this.props.startEventMove(this.props.i, this.props.event);
 								}
 							}><i className="icon-shuffle"></i></button>
 							<button onClick={() => {this.props.setEventStatusDone(id)}}><i className="icon-checkmark"></i></button>

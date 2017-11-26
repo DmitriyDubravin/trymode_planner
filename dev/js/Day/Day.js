@@ -113,7 +113,6 @@ export default class Day extends Component {
 
 // MOVE
 	startEventMove = (i, event) => {
-		console.log(333, i, event);
 		this.setState({movingEventIndex: i, movingEvent: event});
 	}
 	cancelEventMove = () => {
@@ -137,6 +136,35 @@ export default class Day extends Component {
 			this.getAndSetDay.bind(this)
 		);
 		this.setState({movingEventIndex: null, movingEvent: null});
+	}
+// DRAG & DROP
+	dragoverHandler(e) {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+	}
+	dropHandler(e) {
+		const oldIndex = e.dataTransfer.getData("text");
+		const newIndex = +e.target.id;
+		const newTime = this.props.data.day[newIndex].time;
+		const movingEvent = this.props.data.day[oldIndex];
+		console.log(oldIndex, newIndex, newTime, event);
+
+		let freeSpaceMins = 0;
+		for(let x = newIndex; x < 144; x++) {
+			if(!this.props.data.day[x].start) {
+				freeSpaceMins += 10;
+			} else {
+				break;
+			}
+		}
+		let isOverlap = movingEvent.dur > freeSpaceMins;
+		moveEvent(
+			this.props.user.token,
+			movingEvent.id,
+			newTime / 1000,
+			isOverlap ? 10 : movingEvent.dur,
+			this.getAndSetDay.bind(this)
+		);
 	}
 
 
@@ -184,15 +212,9 @@ export default class Day extends Component {
 
 
 
-// DRAG & DROP
-	dragoverHandler(e) {
-		e.preventDefault();
-		console.log('dragging over');
-		e.dataTransfer.dropEffect = 'move';
-	}
-	dropHandler(e) {
-		console.log(1, e.target.id);
-	}
+
+
+
 
 
 
@@ -226,7 +248,7 @@ export default class Day extends Component {
 						removeEvent={this.removeEvent}
 						setEventStatusDone={this.setEventStatusDone}
 						setEventStatusUndone={this.setEventStatusUndone}
-						moveEvent={this.startEventMove}
+						startEventMove={this.startEventMove}
 						startEventEdit={this.startEventEdit}
 					/>
 				);
@@ -281,7 +303,8 @@ export default class Day extends Component {
 
 // EVENT MOVE
 			} else if(
-				this.state.movingEventIndex === i
+				this.state.movingEventIndex === i &&
+				+this.state.movingEvent.start === cell.time / 1000
 			) {
 
 				dayCells[i] = (

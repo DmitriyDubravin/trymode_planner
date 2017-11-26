@@ -45,7 +45,7 @@ export default class EventEdit extends Component {
 			if(index !== 144) {
 				options.push(<option key={index} value={indexDur}>{cf.formatHoursMinutes(day[index].hours, day[index].minutes)}</option>);
 			} else {
-				options.push(<option key={index} value={indexDur+10}>{cf.formatHoursMinutes(0, 0)}</option>);
+				options.push(<option key={index} value={indexDur}>{cf.formatHoursMinutes(0, 0)}</option>);
 			}
 		}
 

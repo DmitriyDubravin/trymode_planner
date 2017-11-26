@@ -36,8 +36,7 @@ export const user = (state = initialUser, action) => {
 const initialLayout = {
 	login: false,
 	toolbar: false,
-	calendar: false,
-	movingEvent: false
+	calendar: false
 }
 export const layout = (state = initialLayout, action) => {
 	switch(action.type) {
@@ -79,8 +78,7 @@ export const layout = (state = initialLayout, action) => {
 
 
 const initialData = {
-	day: null,
-	movingEvent: null
+	day: null
 }
 export const data = (state = initialData, action) => {
 	switch(action.type) {
