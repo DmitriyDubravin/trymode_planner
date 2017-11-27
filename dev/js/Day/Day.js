@@ -14,7 +14,8 @@ export default class Day extends Component {
 			editingEventIndex: null,
 			movingEventIndex: null,
 			movingEvent: null,
-			loading: false
+			loading: false,
+			dragOverIndex: null
 		}
 	}
 
@@ -141,13 +142,15 @@ export default class Day extends Component {
 	dragoverHandler(e) {
 		e.preventDefault();
 		e.dataTransfer.dropEffect = 'move';
+		const dragOverIndex = +e.target.id;
+		this.setState({dragOverIndex: dragOverIndex});
 	}
 	dropHandler(e) {
+		this.setState({dragOverIndex: null});
 		const oldIndex = e.dataTransfer.getData("text");
 		const newIndex = +e.target.id;
 		const newTime = this.props.data.day[newIndex].time;
 		const movingEvent = this.props.data.day[oldIndex];
-		console.log(oldIndex, newIndex, newTime, event);
 
 		let freeSpaceMins = 0;
 		for(let x = newIndex; x < 144; x++) {
@@ -219,7 +222,7 @@ export default class Day extends Component {
 
 
 	render() {
-		
+		console.log('rendered');
 		// if(!this.props.data.day) return <div>loading...</div>;
 		if(!this.props.data.day) return <div className="preloader-layer"><img src="../images/preloader.gif" /></div>
 
@@ -326,6 +329,9 @@ export default class Day extends Component {
 			} else {
 
 				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
+				if(i === this.state.dragOverIndex) {
+					cls += ' hover';
+				}
 				dayCells[i] = (
 					<div
 						id={i}
