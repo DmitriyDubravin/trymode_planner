@@ -328,7 +328,7 @@ export default class Day extends Component {
 // EMPTY CELL
 			} else {
 
-				let cls = gap === 0 ? 'cell' : `cell gap${gap}`;
+				let cls = gap === 0 ? 'cell' : `cell gap gap${gap}`;
 				if(i === this.state.dragOverIndex) {
 					cls += ' hover';
 				}

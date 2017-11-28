@@ -280,7 +280,7 @@ a {
 	display: flex;
 	flex-wrap: wrap;
 	border: 1px solid $brand-bg;
-	background: $brand-bg;
+	background: $white;
 	.cell {
 		border: 1px solid $brand-bg;
 		width: calc(100% / 6);
@@ -292,7 +292,7 @@ a {
 		&:hover,
 		&.hover {
 			color: $white;
-			background: $brand-bg;	
+			background: $brand-bg;
 		}
 	}
 	.event {
@@ -318,13 +318,13 @@ a {
 			color: $white;
 			background: $brand-bg2;
 		}
-		.settings {
+		.settings {	
 			position: absolute;
 			top: 0;
 			right: 0;
 			left: 0;
 			bottom: 0;
-			border-left: 1px solid $brand-bg2;
+			// border-left: 1px solid $brand-bg2;
 			// width: 32px;
 			button {
 				float: right;
@@ -382,6 +382,7 @@ a {
 	overflow: hidden;
 	padding: 10px;
 	width: 100%;
+	background: $brand-bg;
 	textarea {
 		display: block;
 		margin: 0 0 10px;
