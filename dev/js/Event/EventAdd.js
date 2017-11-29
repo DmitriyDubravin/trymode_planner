@@ -11,6 +11,7 @@ export default class EventAdd extends Component {
 			eventAddIdea: null
 		}
 	}
+
 	componentDidMount() {
 		this.textarea.focus();
 	}
@@ -18,6 +19,15 @@ export default class EventAdd extends Component {
 	changeHandler = e => {
 		let name = e.target.name;
 		let value = e.target.value;
+
+		if(name === 'eventAddDur2') {
+			name = 'eventAddDur';
+			this.select1.value = value;
+		}
+		if(name === 'eventAddDur') {
+			this.select2.value = value;
+		}
+
 		this.setState({[name]: value});
 	}
 
@@ -51,17 +61,16 @@ export default class EventAdd extends Component {
 		for(let d = 0, index = i + 1; index <= nextEventIndex; index++) {
 			let indexDur = ++d * 10;
 
-			// for seconds select
-			// let hours2 = Math.floor(indexDur / 60);
-			// let minutes2 = indexDur - hours2 * 60
-			// let time2 = `${hours2 > 9 ? hours2 : '0'+hours2}:${minutes2 === 0? '00' : minutes2}`;
+			let hours2 = Math.floor(indexDur / 60);
+			let minutes2 = indexDur - hours2 * 60
+			let time2 = `${hours2 > 9 ? hours2 : '0'+hours2}:${minutes2 === 0? '00' : minutes2}`;
 
 			if(index !== 144) {
 				options.push(<option key={index} value={indexDur}>{cf.formatHoursMinutes(day[index].hours, day[index].minutes)}</option>);
-				// options2.push(<option key={index} value={indexDur}>{time2}</option>);
+				options2.push(<option key={index} value={indexDur}>{time2}</option>);
 			} else {
 				options.push(<option key={index} value={indexDur}>{cf.formatHoursMinutes(0, 0)}</option>);
-				// options2.push(<option key={index} value={indexDur}>{time2}</option>);
+				options2.push(<option key={index} value={indexDur}>{time2}</option>);
 			}
 		}
 
@@ -76,15 +85,29 @@ export default class EventAdd extends Component {
 					<div className="buttons">
 						<button className="button" onClick={this.props.cancelEventAdd}><i className="icon-cross"></i></button>
 						<div className="time">
-							<div className="start">{cf.formatHoursMinutes(hours, minutes)}</div>
+							<div className="field">{cf.formatHoursMinutes(hours, minutes)}</div>
 							<div className="hyphen">-</div>
-							<div className="finish">
-								<select name="eventAddDur" onChange={this.changeHandler}>
+							<div className="field">
+								<select
+									name="eventAddDur"
+									onChange={this.changeHandler}
+									ref={select1 => this.select1 = select1}
+								>
 									{options}
 								</select>
 							</div>
+							<div className="hyphen">-</div>
+							<div className="field">
+								<select
+									name="eventAddDur2"
+									onChange={this.changeHandler}
+									ref={select2 => this.select2 = select2}
+								>
+									{options2}
+								</select>
+							</div>
 						</div>
-						<button className="submit"><i className="icon-plus"></i></button>
+						<button className="submit" type="submit"><i className="icon-plus"></i></button>
 					</div>
 				</form>
 			</div>

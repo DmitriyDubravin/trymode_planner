@@ -102,6 +102,7 @@ a {
 #planner {
 	margin: 0 auto;
 	max-width: 374px;
+	max-width: 500px;
 }
 
 .content {
@@ -401,12 +402,13 @@ a {
 		display: flex;
 		justify-content: space-between;
 		width: 140px;
+		width: 200px;
 	}
-	.start {
+	.field {
 		line-height: 30px;
 		font-size: 18px;
 		width: 60px;
-		text-align: right;
+		text-align: center;
 		color: $white;
 	}
 	.hyphen {
@@ -415,14 +417,11 @@ a {
 		text-align: center;
 		color: $white;
 	}
-	.finish {
-		width: 60px;
-	}
 	select {
 		display: block;
 		margin: 0;
 		border: 0;
-		padding: 0;
+		padding: 0 0 0 6px;
 		text-align: center;
 		width: 100%;
 		height: 30px;
@@ -433,9 +432,12 @@ a {
 		outline: none;
 		-webkit-appearance: none;
 		-moz-appearance: none;
-		text-indent: 0;
+		text-indent: 1px;
 		text-overflow: '';
 		cursor: pointer;
+		&:focus {
+			box-shadow: 0 0 5px $brand-fg;
+		}
 	}
 	button {
 		display: block;
