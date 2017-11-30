@@ -24,6 +24,8 @@ const store = createStore(
 );
 const {dispatch} = store;
 
+
+
 if(dev) {
 	if(module.hot) {
 		// module.hot.accept();
