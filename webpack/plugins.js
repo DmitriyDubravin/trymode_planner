@@ -22,8 +22,8 @@ var plugins = [
 if(dev) {
 	var MultiHtmlWebpackPlugin = pages.map(name => 
 		new HtmlWebpackPlugin({
-			filename: './dev/html/' + name + '.html',
-			template: './dev/html/' + name + '.html',
+			filename: './dev/' + name + '.html',
+			template: './dev/' + name + '.html',
 			showErrors: true,
 			minify: {
 				collapseWhitespace: true,
@@ -39,8 +39,8 @@ if(dev) {
 } else {
 	var MultiHtmlWebpackPlugin = pages.map(name =>
 		new HtmlWebpackPlugin({
-			filename: './html/' + name + '.html',
-			template: './html/' + name + '.html',
+			filename: './' + name + '.html',
+			template: './' + name + '.html',
 			showErrors: true
 		})
 	);

@@ -11,7 +11,7 @@ export default class Header extends Component {
 		return (
 			<header className='header'>
 				{/* <button onClick={() => this.redirect()}>logout</button> */}
-				<img className="main-logo" src="../images/accorn.svg" alt="Trymode" />
+				<img className="main-logo" src="images/accorn.svg" alt="Trymode" />
 			</header>
 		);
 	}

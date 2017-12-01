@@ -1,7 +1,17 @@
 const {dev} = require('./common');
 
 module.exports = dev
-? null
+? [
+	{
+		test: /\.(eot|svg|ttf|woff)$/,
+		exclude: /images/,
+		use: [
+			{
+				loader: 'file-loader'
+			}
+		]
+	}
+]
 : [
 	{
 		test: /\.(eot|svg|ttf|woff)$/,
@@ -12,7 +22,7 @@ module.exports = dev
 				options: {
 					name: '[name].[ext]',
 					publicPath: '..',
-					outputPath: '/images/',
+					outputPath: '/fonts/',
 				}
 			}
 		]

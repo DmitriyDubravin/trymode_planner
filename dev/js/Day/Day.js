@@ -224,7 +224,7 @@ export default class Day extends Component {
 	render() {
 		console.log('rendered');
 		// if(!this.props.data.day) return <div>loading...</div>;
-		if(!this.props.data.day) return <div className="preloader-layer"><img src="../images/preloader.gif" /></div>
+		if(!this.props.data.day) return <div className="preloader-layer"><img src="images/preloader.gif" /></div>
 
 		let dayCells = [];
 		let gap = 0;
@@ -362,7 +362,7 @@ export default class Day extends Component {
 			<div className={`day${this.state.loading ? ' loading' : ''}`}>
 				<div className="days-cells">
 					{dayCells}
-					<div className="preloader-layer"><img src="../images/preloader.gif" /></div>
+					<div className="preloader-layer"><img src="images/preloader.gif" /></div>
 				</div>
 			</div>
 		);

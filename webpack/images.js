@@ -15,6 +15,7 @@ module.exports = dev
 : [
 	{
 		test: /\.(png|svg|jpg|gif)$/,
+		exclude: /fonts/,
 		use: [
 			{
 				loader: 'file-loader',
