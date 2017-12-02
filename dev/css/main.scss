@@ -143,7 +143,6 @@ a {
 			display: block;
 			line-height: 40px;
 			font-size: 20px;
-			vertical-align: middle;
 		}
 	}
 	.btn-prev-day,
@@ -353,9 +352,6 @@ a {
 			display: flex;
 			justify-content: space-between;
 			background: $white;
-			button {
-				// float: right;
-			}
 		}
 
 	}

@@ -1,6 +1,6 @@
-const {dev} = require('./common');
+const {dev} = require("./common");
 
 module.exports = dev
-? 'cheap-module-eval-source-map'
-//: 'source-map';
-: '';
+    ? "cheap-module-eval-source-map"
+    //: 'source-map';
+    : "";
