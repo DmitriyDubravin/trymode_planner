@@ -45,8 +45,8 @@
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "foundation-sites": "^6.4.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",

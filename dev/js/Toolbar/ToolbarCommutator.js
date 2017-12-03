@@ -1,18 +1,18 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import ToolbarConnector from './ToolbarConnector';
+import React from "react";
+import {connect} from "react-redux";
+import ToolbarConnector from "./ToolbarConnector";
 
-const mapStateToProps = (state) => {
-	return {
-		timeSelected: state.date.selected,
-		canBeShown: state.layout.toolbar
-	}
-}
+const mapStateToProps = state => {
+    return {
+        timeSelected: state.date.selected,
+        canBeShown: state.layout.toolbar
+    };
+};
 
 export default connect(mapStateToProps)(
-	({canBeShown, hasToken, timeSelected}) => (<div>{
-		canBeShown &&
-		timeSelected &&
-		<ToolbarConnector />
-	}</div>)
+    ({canBeShown, timeSelected}) => (<div>{
+        canBeShown &&
+        timeSelected &&
+        <ToolbarConnector />
+    }</div>)
 );

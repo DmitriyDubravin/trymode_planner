@@ -4,7 +4,6 @@ import {getCookie} from "./functions";
 import {checkCookie, tryLogin} from "./serverInteractions";
 import {Form, FormRow, Input, Button, FormError} from "./forms";
 
-// let serverUrl = 'http://trymode.com/core.php';
 function escapeHtml(string) {
     var entityMap = {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;", "/": "&#x2F;"};
     return String(string).replace(/[&<>"'\/]/g, function (s) {
@@ -19,9 +18,10 @@ export default class User extends Component {
             nickname: null,
             password: null
         };
+        this.handleLogin = this.handleLogin.bind(this);
     }
 
-    handleLogin = () => {
+    handleLogin() {
         let nickname = escapeHtml(this.nickname.value);
         let password = escapeHtml(this.password.value);
         tryLogin(nickname, password);

@@ -1,49 +1,49 @@
 export function setCurrentTimeAction(time) {
-	return {type: 'SET_CURRENT_TIME', current: time}
+    return {type: "SET_CURRENT_TIME", current: time};
 }
 export function setSelectedTimeAction(time) {
-	return {type: 'SET_SELECTED_TIME', selected: time}
+    return {type: "SET_SELECTED_TIME", selected: time};
 }
 export function setShowingTimeAction(time) {
-	return {type: 'SET_SHOWING_TIME', showing: time}
+    return {type: "SET_SHOWING_TIME", showing: time};
 }
 
 
 
 export function setTokenAction(token) {
-	return {type: 'SET_TOKEN', token: token}
+    return {type: "SET_TOKEN", token: token};
 }
 
 
 
 export function setDayAction(day) {
-	return {type: 'SET_DAY', day: day}
+    return {type: "SET_DAY", day: day};
 }
 export function addEventAction(event) {
-	return {type: 'ADD_EVENT', event: event}
+    return {type: "ADD_EVENT", event: event};
 }
 export function deleteEventAction(index) {
-	return {type: 'DELETE_EVENT', eventIndex: index}
+    return {type: "DELETE_EVENT", eventIndex: index};
 }
 
 
 export function calendarToggleAction() {
-	return {type: 'CALENDAR_TOGGLE'}
+    return {type: "CALENDAR_TOGGLE"};
 }
 export function calendarOffAction() {
-	return {type: 'CALENDAR_OFF'}
+    return {type: "CALENDAR_OFF"};
 }
 export function loginToggleAction() {
-	return {type: 'LOGIN_TOGGLE'}
+    return {type: "LOGIN_TOGGLE"};
 }
 export function dayToggleAction() {
-	return {type: 'DAY_TOGGLE'}
+    return {type: "DAY_TOGGLE"};
 }
 export function dayOnAction() {
-	return {type: 'DAY_ON'}
+    return {type: "DAY_ON"};
 }
 export function dayOffAction() {
-	return {type: 'DAY_OFF'}
+    return {type: "DAY_OFF"};
 }
 
 
@@ -51,8 +51,8 @@ export function dayOffAction() {
 
 // pages switchers
 export function switchToPageLoginAction() {
-	return {type: 'PAGE_LOGIN'}
+    return {type: "PAGE_LOGIN"};
 }
 export function switchToPageMainAction() {
-	return {type: 'PAGE_MAIN'}
+    return {type: "PAGE_MAIN"};
 }

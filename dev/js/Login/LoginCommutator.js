@@ -1,17 +1,16 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import LoginContainer from './LoginContainer';
+import React from "react";
+import {connect} from "react-redux";
+import LoginContainer from "./LoginContainer";
 
-const mapStateToProps = (state) => {
-	return {
-		canBeShown: state.layout.login
-		// token ?
-	}
-}
+const mapStateToProps = state => {
+    return {
+        canBeShown: state.layout.login
+    };
+};
 
 export default connect(mapStateToProps)(
-	({canBeShown}) => (<div>{
-		canBeShown &&
+    ({canBeShown}) => (<div>{
+        canBeShown &&
 		<LoginContainer />
-	}</div>)
+    }</div>)
 );
