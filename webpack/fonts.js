@@ -21,8 +21,8 @@ module.exports = dev
                     loader: "file-loader",
                     options: {
                         name: "[name].[ext]",
-                        publicPath: "..",
-                        outputPath: "/fonts/",
+                        publicPath: "../",
+                        outputPath: "fonts/"
                     }
                 }
             ]
