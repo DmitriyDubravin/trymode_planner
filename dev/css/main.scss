@@ -455,3 +455,39 @@ a {
 		}
 	}
 }
+
+.login-form {
+    margin: 0 auto;
+    max-width: 300px;
+    input[type="text"],
+    input[type="password"] {
+        display: block;
+        margin: 0 0 20px;
+        border: 1px solid $brand-bg;
+        padding: 5px 10px;
+        line-height: 22px;
+        font-size: 15px;
+        width: 100%;
+        outline: none;
+    }
+    button {
+        display: block;
+        border: 1px solid $brand-bg;
+        padding: 5px 10px;
+        width: 100%;
+        line-height: 22px;
+        font-size: 15px;
+        font-weight: bold;
+        color: $brand-bg;
+        background: $brand-fg;
+        outline: none;
+        &:hover,
+        &:focus {
+            color: $brand-fg;
+            background: $brand-bg;
+        }
+    }
+}
+
+
+

@@ -1,0 +1,1 @@
+export const server = "http://trymode.com";

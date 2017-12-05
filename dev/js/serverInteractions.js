@@ -1,4 +1,5 @@
-const serverUrl = "http://trymode.com/planner/core.php";
+import {server} from "./constants";
+const serverUrl = server + "/planner/core.php";
 
 export const checkToken = (token, result) => {
     if(token.length !== 0) {

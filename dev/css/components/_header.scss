@@ -1,25 +1,29 @@
 .header {
-	display: flex;
-	align-items: center;
-	padding: 0 0 20px;
+	// display: flex;
+	// align-items: center;
+    padding: 0 0 20px;
 }
 
 .main-logo {
-	margin: 0 auto;
-	max-width: 40px;
-	img {
+    display: block;
+    margin: 0 auto;
+    max-width: 40px;
+    outline: none;
+    img,
+    svg {
 		display: block;
 		max-width: 100%;
-		height: auto;
-	}
+        height: auto;
+        outline: none;
+    }
+    path {
+        transition: fill 0.25s;
+    }
+    &:hover,
+    &:focus {
+        path {
+            fill: $brand-bg;
+        }
+    }
 }
 
-.main-nav {
-	@extend %reset-list;
-	display: flex;
-	line-height: 20px;
-	font-size: 18px;
-	li {
-		margin: 0 20px 0 0;
-	}
-}
