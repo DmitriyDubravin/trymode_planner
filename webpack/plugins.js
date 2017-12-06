@@ -10,10 +10,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 // var ImageminPlugin = require('imagemin-webpack-plugin');
 
 var plugins = [
-    new webpack.DefinePlugin({
-        dev: JSON.stringify(dev),
-        prod: JSON.stringify(prod)
-    }),
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery"
@@ -34,7 +30,10 @@ if(dev) {
     plugins = [
         ...plugins,
         ...MultiHtmlWebpackPlugin,
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify("development")
+        })
     ];
 } else {
     let MultiHtmlWebpackPlugin = pages.map(name =>
@@ -58,7 +57,10 @@ if(dev) {
         new CopyWebpackPlugin([{
             from: "images/**/*",
             to: path.resolve(__dirname, "../prod")
-        }])
+        }]),
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify("production")
+        })
         // , new ImageminPlugin({test: /\.(jpe?g|png|gif|svg)$/i})
     ];
 }

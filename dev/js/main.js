@@ -24,15 +24,13 @@ const store = createStore(
 );
 const {dispatch} = store;
 
-
-
-if(dev) {
+if(process.env.NODE_ENV === "development") {
     if(module.hot) {
-        // module.hot.accept();
-        module.hot.accept(reducers, () => {
-            const nextRootReducer = require(reducers);
-            store.replaceReducer(nextRootReducer);
-        });
+        module.hot.accept();
+        // module.hot.accept(reducers, () => {
+        //     const nextRootReducer = require(reducers);
+        //     store.replaceReducer(nextRootReducer);
+        // });
     }
 }
 
