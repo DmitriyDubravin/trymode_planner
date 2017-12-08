@@ -13,7 +13,7 @@ module.exports = dev
                 {
                     loader: "css-loader",
                     options: {
-                        // url: false, // ?
+                        // url: false,
                         sourceMap: true, // ! expose a runtime overhead and increase in bundle size
                         minimize: true // ! In some cases the minification is destructive to the css; ! relative paths could be buggy
                     }

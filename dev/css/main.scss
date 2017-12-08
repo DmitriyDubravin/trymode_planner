@@ -481,6 +481,7 @@ a {
         color: $brand-bg;
         background: $brand-fg;
         outline: none;
+        cursor: pointer;
         &:hover,
         &:focus {
             color: $brand-fg;
@@ -488,6 +489,5 @@ a {
         }
     }
 }
-
 
 

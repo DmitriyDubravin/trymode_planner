@@ -3,7 +3,7 @@ const {dev} = require("./common");
 module.exports = dev
     ? [
         {
-            test: /\.(eot|svg|ttf|woff)$/,
+            test: /\.(ttf|otf|eot|woff|svg)$/,
             exclude: /images/,
             use: [
                 {
@@ -14,7 +14,7 @@ module.exports = dev
     ]
     : [
         {
-            test: /\.(eot|svg|ttf|woff)$/,
+            test: /\.(ttf|otf|eot|woff|svg)$/,
             exclude: /images/,
             use: [
                 {

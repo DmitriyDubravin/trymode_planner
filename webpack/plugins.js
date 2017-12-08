@@ -1,4 +1,4 @@
-var {dev, prod, pages, extractPlugin} = require("./common");
+const {dev, prod, pages, extractPlugin} = require("./common");
 const webpack = require("webpack");
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -12,7 +12,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 var plugins = [
     new webpack.ProvidePlugin({
         $: "jquery",
-        jQuery: "jquery"
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
     })
 ];
 if(dev) {

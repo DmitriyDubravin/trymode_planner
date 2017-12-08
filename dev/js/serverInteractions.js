@@ -1,32 +1,94 @@
 import {server} from "./constants";
 const serverUrl = server + "/planner/core.php";
 
+// export const checkToken = (token, result) => {
+//     if(token.length !== 0) {
+//         $.ajax({
+//             url: serverUrl,
+//             data: {
+//                 "type": "token_check",
+//                 "token": token
+//             },
+//             type: "POST",
+//             success: function(response) {
+//                 let res = $.parseJSON(response);
+
+//                 if(res.isTokenAccepted) {
+//                     // successfully checked
+//                     result(true);
+//                 } else {
+//                     // need to destroy cookies with invalid token
+//                     result(false);
+//                 }
+//             }
+//         });
+//     } else {
+//         // no token was found
+//         result(undefined);
+//     }
+// };
+
 export const checkToken = (token, result) => {
     if(token.length !== 0) {
-        $.ajax({
-            url: serverUrl,
-            data: {
+        fetch(serverUrl, {
+            method: "POST",
+            body: {
                 "type": "token_check",
                 "token": token
-            },
-            type: "POST",
-            success: function(response) {
-                let res = $.parseJSON(response);
-
-                if(res.isTokenAccepted) {
-                    // successfully checked
-                    result(true);
-                } else {
-                    // need to destroy cookies with invalid token
-                    result(false);
-                }
             }
-        });
+        })
+            .then(function(resp) {
+                console.log(1, resp);
+                return JSON.parse(resp);
+            })
+            .then(function(response) {
+                console.log(2, response);
+                // let res = $.parseJSON(response);
+
+                // if(res.isTokenAccepted) {
+                //     // successfully checked
+                //     result(true);
+                // } else {
+                //     // need to destroy cookies with invalid token
+                //     result(false);
+                // }
+            });
     } else {
         // no token was found
         result(undefined);
     }
 };
+
+/**
+ * Created by bigdrop on 12.05.17.
+ */
+// import 'whatwg-fetch';
+
+// export default function requestApi(path, callback) {
+//     let myHeaders = new Headers({
+//         'Content-Language': 'en-US'
+//     });
+//     let options = {
+//         method: 'GET',
+//         headers: myHeaders
+//     };
+
+//     fetch(path, options)
+//         .then(function (response) {
+//             return response.json()
+//         })
+//         .then(function (json) {
+//             if (callback) callback(json);
+//             // console.log(json);
+//         })
+//         .catch(function (ex) {
+//             console.log('parsing failed', ex)
+//         });
+// }
+
+
+
+
 
 export const tryLogin = (nickname, password, callback) => {
     $.ajax({
