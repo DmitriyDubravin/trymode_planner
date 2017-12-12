@@ -30,20 +30,24 @@ const serverUrl = server + "/planner/core.php";
 
 export const checkToken = (token, result) => {
     if(token.length !== 0) {
-        fetch(serverUrl, {
+
+        var request = new Request(serverUrl, {
             method: "POST",
-            body: {
+            body: JSON.stringify({
                 "type": "token_check",
                 "token": token
-            }
-        })
-            .then(function(resp) {
-                console.log(1, resp);
-                return JSON.parse(resp);
+            })
+        });
+
+        fetch(request)
+            .then(function(response) {
+                console.log(1, response);
+                // return JSON.parse(resp);
+                return response.json();
             })
             .then(function(response) {
-                console.log(2, response);
-                // let res = $.parseJSON(response);
+                console.log(2, JSON.stringify(response));
+                // let res = $.parseJSON(resp);
 
                 // if(res.isTokenAccepted) {
                 //     // successfully checked
@@ -52,6 +56,8 @@ export const checkToken = (token, result) => {
                 //     // need to destroy cookies with invalid token
                 //     result(false);
                 // }
+            }).catch(function(error) {
+                console.log("Error:\n", error.message);
             });
     } else {
         // no token was found
