@@ -1,6 +1,22 @@
 import {server} from "./constants";
 const serverUrl = server + "/planner/core.php";
 
+function encodeData(obj) {
+    let str = "";
+    for (let key in obj) {
+        str += `&${key}=${obj[key]}`;
+    }
+    return str;
+}
+
+function getData(data, url = serverUrl) {
+    return fetch(url, {
+        method: "POST",
+        headers: {"Content-Type":"application/x-www-form-urlencoded"},
+        body: encodeData(data)
+    }).then(response => response.json());
+}
+
 // export const checkToken = (token, result) => {
 //     if(token.length !== 0) {
 //         $.ajax({
@@ -12,7 +28,6 @@ const serverUrl = server + "/planner/core.php";
 //             type: "POST",
 //             success: function(response) {
 //                 let res = $.parseJSON(response);
-
 //                 if(res.isTokenAccepted) {
 //                     // successfully checked
 //                     result(true);
@@ -28,73 +43,43 @@ const serverUrl = server + "/planner/core.php";
 //     }
 // };
 
-export const checkToken = (token, result) => {
+export const checkToken = (token, callback) => {
     if(token.length !== 0) {
-
-        var request = new Request(serverUrl, {
-            method: "POST",
-            body: JSON.stringify({
+        getData(
+            {
                 "type": "token_check",
                 "token": token
-            })
-        });
-
-        fetch(request)
-            .then(function(response) {
-                console.log(1, response);
-                // return JSON.parse(resp);
-                return response.json();
-            })
-            .then(function(response) {
-                console.log(2, JSON.stringify(response));
-                // let res = $.parseJSON(resp);
-
-                // if(res.isTokenAccepted) {
-                //     // successfully checked
-                //     result(true);
-                // } else {
-                //     // need to destroy cookies with invalid token
-                //     result(false);
-                // }
-            }).catch(function(error) {
-                console.log("Error:\n", error.message);
-            });
+            }
+        ).then(response =>  response.isTokenAccepted ? callback(true) : callback(false));
     } else {
         // no token was found
-        result(undefined);
+        callback(undefined);
     }
 };
 
-/**
- * Created by bigdrop on 12.05.17.
- */
-// import 'whatwg-fetch';
 
-// export default function requestApi(path, callback) {
-//     let myHeaders = new Headers({
-//         'Content-Language': 'en-US'
-//     });
-//     let options = {
-//         method: 'GET',
-//         headers: myHeaders
-//     };
-
-//     fetch(path, options)
-//         .then(function (response) {
-//             return response.json()
-//         })
-//         .then(function (json) {
-//             if (callback) callback(json);
-//             // console.log(json);
-//         })
-//         .catch(function (ex) {
-//             console.log('parsing failed', ex)
-//         });
-// }
-
-
-
-
+// export const checkToken = (token, result) => {
+//     if(token.length !== 0) {
+//         fetch(
+//             serverUrl,
+//             {
+//                 method: "POST",
+//                 headers: {"Content-Type":"application/x-www-form-urlencoded"},
+//                 body: encodeData({
+//                     "type": "token_check",
+//                     "token": token
+//                 })
+//             })
+//             .then(response => response.json())
+//             .then(data =>  data.isTokenAccepted ? result(true) : result(false))
+//             .catch(error => {
+//                 console.log("Error:\n", error.message);
+//             });
+//     } else {
+//         // no token was found
+//         result(undefined);
+//     }
+// };
 
 export const tryLogin = (nickname, password, callback) => {
     $.ajax({
