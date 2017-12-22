@@ -17,234 +17,129 @@ function getData(data, url = serverUrl) {
     }).then(response => response.json());
 }
 
-// export const checkToken = (token, result) => {
-//     if(token.length !== 0) {
-//         $.ajax({
-//             url: serverUrl,
-//             data: {
-//                 "type": "token_check",
-//                 "token": token
-//             },
-//             type: "POST",
-//             success: function(response) {
-//                 let res = $.parseJSON(response);
-//                 if(res.isTokenAccepted) {
-//                     // successfully checked
-//                     result(true);
-//                 } else {
-//                     // need to destroy cookies with invalid token
-//                     result(false);
-//                 }
-//             }
-//         });
-//     } else {
-//         // no token was found
-//         result(undefined);
-//     }
-// };
+
 
 export const checkToken = (token, callback) => {
     if(token.length !== 0) {
-        getData(
-            {
-                "type": "token_check",
-                "token": token
-            }
-        ).then(response =>  response.isTokenAccepted ? callback(true) : callback(false));
+        getData({
+            "type": "token_check",
+            "token": token
+        }).then(response =>  response.isTokenAccepted ? callback(true) : callback(false));
     } else {
         // no token was found
         callback(undefined);
     }
 };
 
-
-// export const checkToken = (token, result) => {
-//     if(token.length !== 0) {
-//         fetch(
-//             serverUrl,
-//             {
-//                 method: "POST",
-//                 headers: {"Content-Type":"application/x-www-form-urlencoded"},
-//                 body: encodeData({
-//                     "type": "token_check",
-//                     "token": token
-//                 })
-//             })
-//             .then(response => response.json())
-//             .then(data =>  data.isTokenAccepted ? result(true) : result(false))
-//             .catch(error => {
-//                 console.log("Error:\n", error.message);
-//             });
-//     } else {
-//         // no token was found
-//         result(undefined);
-//     }
-// };
-
 export const tryLogin = (nickname, password, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "login",
-            login_nickname: nickname,
-            login_password: password
-        },
-        type: "POST",
-        success: function(response) {
-            // console.log('Server error', response);
-            let res = $.parseJSON(response);
-            if(res.logged_in === true) {
-                document.cookie = `token=${res.token}; expires=Thu, 21 Mar 2050 12:00:00 UTC; path=/`;
-                callback(res.token);
-            } else {
-                // set error
-            }
+    getData({
+        type: "login",
+        login_nickname: nickname,
+        login_password: password
+    }).then(response => {
+        if(response.logged_in === true) {
+            document.cookie = `token=${response.token}; expires=Thu, 21 Mar 2050 12:00:00 UTC; path=/`;
+            callback(response.token);
+        } else {
+            // set error
         }
     });
 };
 
 export const getDay = (time, token, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "get_day",
-            token: token,
-            time: time
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            callback(res);
-        }
+    getData({
+        type: "get_day",
+        token: token,
+        time: time
+    }).then(response => {
+        callback(response);
     });
 };
 
 export const setEventDone = (token, id, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "set_event_done",
-            token: token,
-            id: id
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            callback(res);
-        }
+    getData({
+        type: "set_event_done",
+        token: token,
+        id: id
+    }).then(response => {
+        callback(response);
     });
 };
 
 export const addEvent = (token, data, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "add_event",
-            token: token,
-            start: data.start,
-            dur: data.dur,
-            idea: data.idea
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventAdded) {
-                callback();
-            }
+    getData({
+        type: "add_event",
+        token: token,
+        start: data.start,
+        dur: data.dur,
+        idea: data.idea
+    }).then(response => {
+        if(response.isEventAdded) {
+            callback();
         }
     });
 };
 
 export const deleteEvent = (token, id, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "delete_event",
-            token: token,
-            id: id
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventDeleted) {
-                callback();
-            }
+    getData({
+        type: "delete_event",
+        token: token,
+        id: id
+    }).then(response => {
+        if(response.isEventDeleted) {
+            callback();
         }
     });
 };
 
 export const eventDone = (token, id, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "event_done",
-            token: token,
-            id: id
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventDone) {
-                callback();
-            }
+    getData({
+        type: "event_done",
+        token: token,
+        id: id
+    }).then(response => {
+        if(response.isEventDone) {
+            callback();
         }
     });
 };
 
 export const eventUndone = (token, id, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "event_undone",
-            token: token,
-            id: id
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventUndone) {
-                callback();
-            }
+    getData({
+        type: "event_undone",
+        token: token,
+        id: id
+    }).then(response => {
+        if(response.isEventUndone) {
+            callback();
         }
     });
 };
 
 export const moveEvent = (token, id, newTime, dur, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "move_event",
-            token: token,
-            id: id,
-            time: newTime,
-            dur: dur
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventMoved) {
-                callback();
-            }
+    getData({
+        type: "move_event",
+        token: token,
+        id: id,
+        time: newTime,
+        dur: dur
+    }).then(response => {
+        if(response.isEventMoved) {
+            callback();
         }
     });
 };
 
 export const editEvent = (token, data, callback) => {
-    $.ajax({
-        url: serverUrl,
-        data: {
-            type: "edit_event",
-            token: token,
-            id: data.id,
-            dur: data.dur,
-            idea: data.idea
-        },
-        type: "POST",
-        success: function(response) {
-            let res = $.parseJSON(response);
-            if(res.isEventEdited) {
-                callback();
-            }
+    getData({
+        type: "edit_event",
+        token: token,
+        id: data.id,
+        dur: data.dur,
+        idea: data.idea
+    }).then(response => {
+        if(response.isEventEdited) {
+            callback();
         }
     });
 };

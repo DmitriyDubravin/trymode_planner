@@ -10,11 +10,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 // var ImageminPlugin = require('imagemin-webpack-plugin');
 
 var plugins = [
-    new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
-    })
+    // new webpack.ProvidePlugin({
+    //     $: "jquery",
+    //     jQuery: "jquery",
+    //     "window.jQuery": "jquery"
+    // })
 ];
 if(dev) {
     let MultiHtmlWebpackPlugin = pages.map(name => 
