@@ -16,7 +16,8 @@ export default class Planner extends Component {
 
     decideUserStatus() {
         const token = getCookie("token");
-        const handleCookieCheckResult = (result) => {
+        const handleCookieCheckResult = result => {
+            console.log("Result: ", result);
             if(result === true) {
                 this.props.setToken(token);
                 this.props.switchToPageMain();

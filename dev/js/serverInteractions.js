@@ -20,11 +20,15 @@ function getData(data, url = serverUrl) {
 
 
 export const checkToken = (token, callback) => {
+    console.log("Cookie token: ", token);
     if(token.length !== 0) {
         getData({
             "type": "token_check",
             "token": token
-        }).then(response =>  response.isTokenAccepted ? callback(true) : callback(false));
+        }).then(response => {
+            console.log("Response: ", response);
+            response.isTokenAccepted ? callback(true) : callback(false);
+        });
     } else {
         // no token was found
         callback(undefined);
